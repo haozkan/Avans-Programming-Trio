@@ -1,7 +1,3 @@
----
-title: About
----
-
 # Introduction
 
 Netflix Statistics is a Java application which enables you to translate database information to usefull graphs.
