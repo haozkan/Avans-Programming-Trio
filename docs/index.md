@@ -1,4 +1,4 @@
 # Navigation
 
-- [Requirments](/requirments)
-- [Test](/test)
+- [Project Requirments](requirments)
+- [Test](test)
