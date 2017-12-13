@@ -1,6 +1,7 @@
 # Working on User Stories
 
 ### User Stories
+
 | Number | Description                                                                                                                                                    |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | US-01  | The user must be able to manage accounts, profiles and watched series/movies.                                                                                  |
