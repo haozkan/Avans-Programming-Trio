@@ -11,14 +11,14 @@ public class Movie extends Video {
     }
 
     public Movie(int id, String title, String duration, double percentage, String genre, String language, int ageRating) {
-        super(id, title, duration, percentage);
+        super(id, title, duration);
         this.genre = genre;
         this.language = language;
         this.ageRating = ageRating;
     }
 
-    public Movie(String title, String duration, double percentage, String genre, String language, int ageRating) {
-        super(title, duration, percentage);
+    public Movie(String title, String duration, String genre, String language, int ageRating) {
+        super(title, duration);
         this.genre = genre;
         this.language = language;
         this.ageRating = ageRating;

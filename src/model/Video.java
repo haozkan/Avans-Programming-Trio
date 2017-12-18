@@ -5,22 +5,19 @@ public abstract class Video {
     private int id;
     private String title;
     private String duration;
-    private double percentage;
 
     public Video() {
     }
 
-    public Video(int id, String title, String duration, double percentage) {
+    public Video(int id, String title, String duration) {
         this.id = id;
         this.title = title;
         this.duration = duration;
-        this.percentage = percentage;
     }
 
-    public Video(String title, String duration, double percentage) {
+    public Video(String title, String duration) {
         this.title = title;
         this.duration = duration;
-        this.percentage = percentage;
     }
 
     abstract double getWatchedPercentage();
@@ -52,12 +49,5 @@ public abstract class Video {
     public void setDuration(String duration) {
         this.duration = duration;
     }
-
-    public double getPercentage() {
-        return percentage;
-    }
-
-    public void setPercentage(double percentage) {
-        this.percentage = percentage;
-    }
+    
 }
