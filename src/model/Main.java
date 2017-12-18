@@ -1,5 +1,6 @@
 package model;
 
+import datalayer.MovieDAO;
 import datalayer.MysqlDAO;
 import view.UserInterface;
 import javax.swing.*;
@@ -11,8 +12,9 @@ public class Main {
 //        UserInterface ui = new UserInterface();
 //        SwingUtilities.invokeLater(ui);
 
-        Connection conn = MysqlDAO.getInstance().connect();
-        System.out.println(conn);
+        MovieDAO movieDAO = MovieDAO.getInstance();
+
+
     }
 
 }
