@@ -45,7 +45,7 @@ public class MovieDAO implements IMovie {
                 String language = resultSet.getString("language");
                 int ageRating = resultSet.getInt("ageClassification");
 
-                Movie m = new Movie(id, title, duration, percentage, genre, language, ageRating);
+                Movie m = new Movie(id, title, duration, genre, language, ageRating);
                 movies.add(m);
             }
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class MovieDAO implements IMovie {
                 String language = resultSet.getString("language");
                 int ageRating = resultSet.getInt("ageClassification");
 
-                m = new Movie(id, title, duration, percentage, genre, language, ageRating);
+                m = new Movie(id, title, duration, genre, language, ageRating);
 
             }
 

@@ -14,6 +14,9 @@ public class Main {
 
         MovieDAO movieDAO = MovieDAO.getInstance();
 
+        for (Movie m : movieDAO.getAllMovies()) {
+            System.out.println(m);
+        }
 
     }
 

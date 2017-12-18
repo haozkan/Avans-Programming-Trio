@@ -26,6 +26,15 @@ public abstract class Video {
 
     abstract double getWatchedPercentageByEpisode(Episode e);
 
+    @Override
+    public String toString() {
+        return "Video{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", duration='" + duration + '\'' +
+                '}';
+    }
+
     public int getId() {
         return id;
     }
