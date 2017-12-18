@@ -4,8 +4,8 @@
 
 | Number | Description                                                                                                                                                    |
 |--------|----------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| US-01  | The user must be able to manage accounts, profiles and watched series/movies.                                                                                  |
-| US-02  | The user must be able to see the average watch time per series.                                                                                                |
+| US-01  | The user must be able to manage accounts and profiles.                                                                                  |
+| US-02  | The user must be able to manage series/movies and see the average watch time per series.                                                                                                |
 | US-03  | The user must be able to see (on selected series) the average percentage of watched episodes, and for every episode the user can see the next episode in line. |
 | US-04  | The user must be able to inspect an account, and see which series it has viewed.                                                                               |
 | US-05  | The user must be able to sort movies with longest duration, and requirements of an age such as below 16years old.                                              |
