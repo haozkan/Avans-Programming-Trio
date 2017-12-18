@@ -1,5 +1,6 @@
 package model;
 
+import datalayer.AccountDAO;
 import datalayer.MovieDAO;
 import datalayer.MysqlDAO;
 import view.UserInterface;
@@ -13,9 +14,14 @@ public class Main {
 //        SwingUtilities.invokeLater(ui);
 
         MovieDAO movieDAO = MovieDAO.getInstance();
+        AccountDAO accountDAO = AccountDAO.getInstance();
 
         for (Movie m : movieDAO.getAllMovies()) {
             System.out.println(m);
+        }
+
+        for (Account a : accountDAO.getAllAccounts()) {
+            System.out.println(a);
         }
 
     }

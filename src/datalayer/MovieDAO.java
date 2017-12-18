@@ -40,7 +40,6 @@ public class MovieDAO implements IMovie {
                 int id = resultSet.getInt("movieID");
                 String title = resultSet.getString("videoTitle");
                 String duration = resultSet.getString("durage");
-                double percentage = 0.0;
                 String genre = resultSet.getString("genre");
                 String language = resultSet.getString("language");
                 int ageRating = resultSet.getInt("ageClassification");
@@ -71,7 +70,6 @@ public class MovieDAO implements IMovie {
                 int id = resultSet.getInt("movieID");
                 String title = resultSet.getString("videoTitle");
                 String duration = resultSet.getString("durage");
-                double percentage = 0.0;
                 String genre = resultSet.getString("genre");
                 String language = resultSet.getString("language");
                 int ageRating = resultSet.getInt("ageClassification");
