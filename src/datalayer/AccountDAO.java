@@ -1,15 +1,22 @@
 package datalayer;
 
 import datalayerinterface.IAccount;
+import model.Account;
 
 import java.util.List;
 
 public class AccountDAO implements IAccount {
+
     private static AccountDAO instance;
 
-    @Override
-    public void createAccount() {
+    private AccountDAO() {
+    }
 
+    public static AccountDAO getInstance() {
+        if (instance == null) {
+            instance = new AccountDAO();
+        }
+        return instance;
     }
 
     @Override
@@ -18,12 +25,22 @@ public class AccountDAO implements IAccount {
     }
 
     @Override
-    public void updateAccount() {
+    public Account getAccountByID(int id) {
+        return null;
+    }
+
+    @Override
+    public void createAccount(Account a) {
 
     }
 
     @Override
-    public void deleteAccount() {
+    public void updateAccount(Account a) {
+
+    }
+
+    @Override
+    public void deleteAccount(Account a) {
 
     }
 }

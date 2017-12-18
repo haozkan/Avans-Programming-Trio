@@ -2,62 +2,71 @@ package model;
 
 public class Account {
 
-    private int abboNumber;
-    private String name;
-    private String streetName;
+    private int accountNumber;
+    private String accountName;
+    private String streetname;
     private int houseNumber;
-    private String postcode;
-    private String city;
+    private String zipcode;
+    private String residence;
 
     public Account() {
 
     }
 
-    public int getAbboNumber() {
-        return this.abboNumber;
+    public Account(int accountNumber, String accountName, String streetname, int houseNumber, String zipcode, String residence) {
+        this.accountNumber = accountNumber;
+        this.accountName = accountName;
+        this.streetname = streetname;
+        this.houseNumber = houseNumber;
+        this.zipcode = zipcode;
+        this.residence = residence;
     }
 
-    public void setAbboNumber(int number) {
-        this.abboNumber = number;
+    public int getAccountNumber() {
+        return accountNumber;
     }
 
-    public String getName() {
-        return this.name;
+    public void setAccountNumber(int accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public String getStreetName() {
-        return this.streetName;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
     }
 
-    public void setStreetName(String name) {
-        this.streetName = name;
+    public String getStreetname() {
+        return streetname;
+    }
+
+    public void setStreetname(String streetname) {
+        this.streetname = streetname;
     }
 
     public int getHouseNumber() {
-        return this.houseNumber;
+        return houseNumber;
     }
 
-    public void setHouseNumber(int number) {
-        this.houseNumber = number;
+    public void setHouseNumber(int houseNumber) {
+        this.houseNumber = houseNumber;
     }
 
-    public String getPostcode() {
-        return this.postcode;
+    public String getZipcode() {
+        return zipcode;
     }
 
-    public void setPostcode(String postcode) {
-        this.postcode = postcode;
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
-    public String getCity() {
-        return this.city;
+    public String getResidence() {
+        return residence;
     }
 
-    public void setCity(String city) {
-        this.city = city;
+    public void setResidence(String residence) {
+        this.residence = residence;
     }
 }

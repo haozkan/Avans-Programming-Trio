@@ -1,8 +1,15 @@
 package datalayerinterface;
 
+import model.Episode;
+import model.Profile;
+
 import java.util.List;
 
 public interface IEpisode {
 
-    List getAllAccounts();
+    public List getAllEpisodes();
+
+    public Episode getEpisodeByID(int id);
+
+    public List getWatchedEpisodesByProfile(Profile p);
 }

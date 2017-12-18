@@ -1,22 +1,27 @@
 package model;
 
-public class Episode {
+public class Episode extends Video {
 
-    private int id;
     private int season;
-    private String title;
-    private String duration;
 
-    public Episode(){
-
+    public Episode(int id, String title, String duration, double percentage, int season) {
+        super(id, title, duration, percentage);
+        this.season = season;
     }
 
-    public int getId() {
-        return id;
+    @Override
+    double getWatchedPercentage() {
+        return 0;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    double getWatchedPercentageByMovie(Movie m) {
+        return 0;
+    }
+
+    @Override
+    double getWatchedPercentageByEpisode(Episode e) {
+        return 0;
     }
 
     public int getSeason() {
@@ -27,19 +32,4 @@ public class Episode {
         this.season = season;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
 }

@@ -1,39 +1,35 @@
 package model;
 
-public class Movie {
-    private int id;
-    private String title;
-    private String duration;
+public class Movie extends Video {
+
     private String genre;
     private String language;
     private int ageRating;
 
-    public Movie(){
+    public Movie() {
 
     }
 
-    public int getId() {
-        return id;
+    public Movie(int id, String title, String duration, double percentage, String genre, String language, int ageRating) {
+        super(id, title, duration, percentage);
+        this.genre = genre;
+        this.language = language;
+        this.ageRating = ageRating;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    double getWatchedPercentage() {
+        return 0;
     }
 
-    public String getTitle() {
-        return title;
+    @Override
+    double getWatchedPercentageByMovie(Movie m) {
+        return 0;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
+    @Override
+    double getWatchedPercentageByEpisode(Episode e) {
+        return 0;
     }
 
     public String getGenre() {

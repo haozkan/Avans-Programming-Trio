@@ -1,15 +1,25 @@
 package model;
 
 public class Serie {
+
+    private int id;
     private String name;
-    private int season;
     private int ageRating;
     private String language;
     private String genre;
     private String suggestion;
 
-    public Serie(){
+    public Serie() {
 
+    }
+
+    public Serie(int id, String name, int ageRating, String language, String genre, String suggestion) {
+        this.id = id;
+        this.name = name;
+        this.ageRating = ageRating;
+        this.language = language;
+        this.genre = genre;
+        this.suggestion = suggestion;
     }
 
     public String getName() {
@@ -18,14 +28,6 @@ public class Serie {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getSeason() {
-        return season;
-    }
-
-    public void setSeason(int season) {
-        this.season = season;
     }
 
     public int getAgeRating() {
