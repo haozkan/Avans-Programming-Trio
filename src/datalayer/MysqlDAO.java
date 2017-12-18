@@ -1,11 +1,22 @@
-# Package: Datalayer
+package datalayer;
 
-## Class: MysqlDAO
-The MySQL DAO handles the connection with the database.
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-### getInstance(): MysqlDAO
+public class MysqlDAO {
 
-```java
+    private static MysqlDAO instance;
+    private String dbname = "netflix";
+    private String user = "root";
+    private String pass = "";
+
+    private MysqlDAO() {
+
+    }
+
     public static MysqlDAO getInstance() {
         if (instance == null) {
             return new MysqlDAO();
@@ -13,13 +24,8 @@ The MySQL DAO handles the connection with the database.
             return instance;
         }
     }
-```
 
-This method checks if there is an instance of the MySQLDAO object, if there isn't it returns a new object of the class. (Singleton)
-
-### connect() : Connection
-
-```java
+    //Create connection object with MySQL JDBC driver
     public Connection connect() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -31,14 +37,8 @@ This method checks if there is an instance of the MySQLDAO object, if there isn'
         }
         return null;
     }
-```
 
-This method tries to connect to the MySQL Database using the JDBC Driver. If it succeeds to connect, it retruns a Connection object.
-If it fails to connect, the exception gets caught and logged.
-
-### closeConnection(): void
-
-```java
+    //Close connection if connection exists
     public void closeConnection(Connection conn) {
         if (conn != null) {
             try {
@@ -48,6 +48,5 @@ If it fails to connect, the exception gets caught and logged.
             }
         }
     }
-```
 
-This method closes the connection if one exists.
+}
