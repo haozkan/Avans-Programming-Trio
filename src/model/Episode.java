@@ -9,6 +9,11 @@ public class Episode extends Video {
         this.season = season;
     }
 
+    public Episode(String title, String duration, double percentage, int season) {
+        super(title, duration, percentage);
+        this.season = season;
+    }
+
     @Override
     double getWatchedPercentage() {
         return 0;

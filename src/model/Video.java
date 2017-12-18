@@ -17,6 +17,12 @@ public abstract class Video {
         this.percentage = percentage;
     }
 
+    public Video(String title, String duration, double percentage) {
+        this.title = title;
+        this.duration = duration;
+        this.percentage = percentage;
+    }
+
     abstract double getWatchedPercentage();
 
     abstract double getWatchedPercentageByMovie(Movie m);
