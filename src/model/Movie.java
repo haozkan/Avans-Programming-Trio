@@ -17,6 +17,13 @@ public class Movie extends Video {
         this.ageRating = ageRating;
     }
 
+    public Movie(String title, String duration, double percentage, String genre, String language, int ageRating) {
+        super(title, duration, percentage);
+        this.genre = genre;
+        this.language = language;
+        this.ageRating = ageRating;
+    }
+
     @Override
     double getWatchedPercentage() {
         return 0;
