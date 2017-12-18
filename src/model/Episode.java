@@ -4,13 +4,13 @@ public class Episode extends Video {
 
     private int season;
 
-    public Episode(int id, String title, String duration, double percentage, int season) {
-        super(id, title, duration, percentage);
+    public Episode(int id, String title, String duration, int season) {
+        super(id, title, duration);
         this.season = season;
     }
 
-    public Episode(String title, String duration, double percentage, int season) {
-        super(title, duration, percentage);
+    public Episode(String title, String duration, int season) {
+        super(title, duration);
         this.season = season;
     }
 
