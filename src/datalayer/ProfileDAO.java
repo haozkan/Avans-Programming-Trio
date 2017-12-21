@@ -36,7 +36,7 @@ public class ProfileDAO implements IProfile {
 
                 while(resultSet.next()){
                     int profileID = resultSet.getInt("profileID");
-                    int accountID = 0;
+                    int accountID = resultSet.getInt("accountID");
                     String profileName = resultSet.getString("profileName");
                     Date dateofBirth = resultSet.getDate("dateofBirth");
 
@@ -65,7 +65,7 @@ public class ProfileDAO implements IProfile {
                     int id = resultSet.getInt("profileID");
                     String profileName = resultSet.getString("profileName");
                     Date dateofBirth = resultSet.getDate("dateofBirth");
-                    int accountID = 0;
+                    int accountID = resultSet.getInt("accountID");
                     p = new Profile(profileName, dateofBirth, profileID, accountID);
 
                 }
