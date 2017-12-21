@@ -36,11 +36,11 @@ public class ProfileDAO implements IProfile {
 
                 while(resultSet.next()){
                     int profileID = resultSet.getInt("profileID");
-                    //int accountID = resultSet.getInt("accountID");
+                    int accountID = 0;
                     String profileName = resultSet.getString("profileName");
                     Date dateofBirth = resultSet.getDate("dateofBirth");
 
-                    Profile p = new Profile(profileName,dateofBirth, profileID);
+                    Profile p = new Profile(profileName,dateofBirth, profileID, accountID);
                     profiles.add(p);
                 }
         } catch (SQLException e){
@@ -65,8 +65,8 @@ public class ProfileDAO implements IProfile {
                     int id = resultSet.getInt("profileID");
                     String profileName = resultSet.getString("profileName");
                     Date dateofBirth = resultSet.getDate("dateofBirth");
-
-                    p = new Profile(profileName, dateofBirth, profileID);
+                    int accountID = 0;
+                    p = new Profile(profileName, dateofBirth, profileID, accountID);
 
                 }
         } catch(SQLException e) {

@@ -24,6 +24,14 @@ public class Profile {
         this.profileID = profileID;
     }
 
+    public Profile(String profileName, Date dateOfBirth, int profileID, int accountID) {
+        this.profileName = profileName;
+        this.dateOfBirth = dateOfBirth;
+        this.profileID = profileID;
+        this.accountID = accountID;
+    }
+
+
     public int getProfileID() {
         return this.profileID;
     }
