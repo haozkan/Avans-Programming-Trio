@@ -107,7 +107,23 @@ public class AccountDAO implements IAccount {
 
     @Override
     public void updateAccount(Account a) {
-
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement(""
+                    + "UPDATE `account` SET `accountName` = ?,`streetName` = ?,`houseNumber` = ?,  `zipCode` = ?, `residence` = ? WHERE accountID = ?");
+            statement.setString(1, a.getAccountName());
+            statement.setString(2, a.getStreetname());
+            statement.setString(3, a.getHouseNumber());
+            statement.setString(4, a.getZipcode());
+            statement.setString(5, a.getResidence());
+            statement.setInt(6, a.getAccountNumber());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
     }
 
     @Override

@@ -1,11 +1,6 @@
 package model;
 
 import datalayer.AccountDAO;
-import datalayer.MovieDAO;
-import datalayer.MysqlDAO;
-import view.UserInterface;
-import javax.swing.*;
-import java.sql.Connection;
 
 public class Main {
 
@@ -13,9 +8,11 @@ public class Main {
 //        UserInterface ui = new UserInterface();
 //        SwingUtilities.invokeLater(ui);
 
-        System.out.println(AccountDAO.getInstance().getAccountByID(6));
-        AccountDAO.getInstance().deleteAccount(AccountDAO.getInstance().getAccountByID(6));
-        System.out.println(AccountDAO.getInstance().getAccountByID(6));
+        AccountDAO dao = AccountDAO.getInstance();
+
+        Account a = dao.getAccountByID(1);
+        a.setAccountName("Henk");
+        dao.updateAccount(a);
 
     }
 
