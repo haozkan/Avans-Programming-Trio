@@ -38,16 +38,6 @@ public class Movie extends Video {
         return 0;
     }
 
-    @Override
-    double getWatchedPercentageByMovie(Movie m) {
-        return 0;
-    }
-
-    @Override
-    double getWatchedPercentageByEpisode(Episode e) {
-        return 0;
-    }
-
     public String getGenre() {
         return genre;
     }

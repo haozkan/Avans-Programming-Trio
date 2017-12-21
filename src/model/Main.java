@@ -1,6 +1,7 @@
 package model;
 
 import datalayer.AccountDAO;
+import datalayer.EpisodeDAO;
 
 public class Main {
 
@@ -8,11 +9,11 @@ public class Main {
 //        UserInterface ui = new UserInterface();
 //        SwingUtilities.invokeLater(ui);
 
-        AccountDAO dao = AccountDAO.getInstance();
+        EpisodeDAO e = EpisodeDAO.getInstance();
 
-        Account a = dao.getAccountByID(1);
-        a.setAccountName("Henk");
-        dao.updateAccount(a);
+        for (Episode ep : e.getAllEpisodes()) {
+            System.out.println(ep);
+        }
 
     }
 
