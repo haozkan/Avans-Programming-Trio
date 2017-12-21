@@ -13,16 +13,9 @@ public class Main {
 //        UserInterface ui = new UserInterface();
 //        SwingUtilities.invokeLater(ui);
 
-        MovieDAO movieDAO = MovieDAO.getInstance();
-        AccountDAO accountDAO = AccountDAO.getInstance();
-
-        for (Movie m : movieDAO.getAllMovies()) {
-            System.out.println(m);
-        }
-
-        for (Account a : accountDAO.getAllAccounts()) {
-            System.out.println(a);
-        }
+        System.out.println(AccountDAO.getInstance().getAccountByID(6));
+        AccountDAO.getInstance().deleteAccount(AccountDAO.getInstance().getAccountByID(6));
+        System.out.println(AccountDAO.getInstance().getAccountByID(6));
 
     }
 
