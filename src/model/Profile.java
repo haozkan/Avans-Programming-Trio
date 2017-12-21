@@ -28,6 +28,16 @@ public class Profile {
         return this.profileID;
     }
 
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "profileName='" + profileName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", profileID=" + profileID +
+                ", accountID=" + accountID +
+                '}';
+    }
+
     public void setProfileID(int id) {
         this.profileID = id;
     }

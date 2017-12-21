@@ -26,7 +26,7 @@ public class ProfileDAO implements IProfile {
     }
 
     @Override
-    public List getAllProfiles() {
+    public List<Profile> getAllProfiles() {
         ArrayList<Profile> profiles = new ArrayList<>();
         Connection conn = null;
         try{

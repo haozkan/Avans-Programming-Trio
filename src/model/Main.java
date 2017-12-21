@@ -2,6 +2,7 @@ package model;
 
 import datalayer.AccountDAO;
 import datalayer.EpisodeDAO;
+import datalayer.ProfileDAO;
 
 public class Main {
 
@@ -9,11 +10,19 @@ public class Main {
 //        UserInterface ui = new UserInterface();
 //        SwingUtilities.invokeLater(ui);
 
-        EpisodeDAO e = EpisodeDAO.getInstance();
+//        EpisodeDAO e = EpisodeDAO.getInstance();
+//
+//        for (Episode ep : e.getAllEpisodes()) {
+//            System.out.println(ep);
+//        }
 
-        for (Episode ep : e.getAllEpisodes()) {
-            System.out.println(ep);
+        ProfileDAO p = ProfileDAO.getInstance();
+
+        for (Profile pr : p.getAllProfiles()) {
+            System.out.println(pr);
         }
+
+        p.deleteProfile(p.getProfileByID(1));
 
     }
 
