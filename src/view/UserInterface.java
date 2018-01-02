@@ -1,12 +1,17 @@
 package view;
 
+import datalayer.AccountDAO;
 import datalayer.MovieDAO;
+import datalayer.ProfileDAO;
+import model.Account;
 import model.Movie;
+import model.Profile;
 
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import static javax.swing.SwingConstants.LEFT;
 
@@ -46,33 +51,57 @@ public class UserInterface implements Runnable {
 
         // Panel 1: Account
         // --------------------------------------------------.
+        List<Account> accounts = AccountDAO.getInstance().getAllAccounts();
+        String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
+        DefaultTableModel tmAccount = new DefaultTableModel(columnNamesAccount, 0);
+        JTable tableAccount = new JTable(tmAccount);
+        JTableHeader headerAccount = tableAccount.getTableHeader();
+
+        for (Account a : accounts) {
+            Object[] o = new Object[6];
+            o[0] = a.getAccountNumber();
+            o[1] = a.getAccountName();
+            o[2] = a.getStreetname();
+            o[3] = a.getHouseNumber();
+            o[4] = a.getZipcode();
+            o[5] = a.getResidence();
+            tmAccount.addRow(o);
+        }
+
         JPanel panelOne = new JPanel();
         panelOne.setLayout(new BorderLayout());
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.add(new JButton("Add"));
-        buttonPanel.add(new JButton("Remove"));
-        buttonPanel.add(new JButton("Edit"));
-        panelOne.add(buttonPanel, BorderLayout.NORTH);
-        panelOne.add(new JTable(), BorderLayout.CENTER);
+        panelOne.add(headerAccount, BorderLayout.NORTH);
+        panelOne.add(tableAccount, BorderLayout.CENTER);
 
         // Second Panel: Profiel
         // --------------------------------------------------.
+        List<Profile> profiles = ProfileDAO.getInstance().getAllProfiles();
+        String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
+        DefaultTableModel tmProfile = new DefaultTableModel(columnNamesProfile, 0);
+        JTable tableProfile = new JTable(tmProfile);
+        JTableHeader headerProfile = tableProfile.getTableHeader();
+
+        for (Profile p : profiles) {
+            Object[] o = new Object[4];
+            o[0] = p.getProfileID();
+            o[1] = p.getAccountID();
+            o[2] = p.getProfileName();
+            o[3] = p.getDateOfBirth();
+            tmProfile.addRow(o);
+        }
+
         JPanel panelTwo = new JPanel();
-        panelTwo.add(new JLabel("test2"));
+        panelTwo.setLayout(new BorderLayout());
+        panelTwo.add(headerProfile, BorderLayout.NORTH);
+        panelTwo.add(tableProfile, BorderLayout.CENTER);
 
         // Third Panel: Films
         // --------------------------------------------------.
-
         List<Movie> movies = MovieDAO.getInstance().getAllMovies();
-        DefaultTableModel tm = new DefaultTableModel();
-        tm.addColumn("ID");
-        tm.addColumn("Titel");
-        tm.addColumn("Duratie");
-        tm.addColumn("Taal");
-        tm.addColumn("Genre");
-        tm.addColumn("Leeftijdclassificatie");
+        String[] columnNames = {"ID", "Titel", "Duratie", "Genre", "Taal", "Leeftijd"};
+        DefaultTableModel tm = new DefaultTableModel(columnNames, 0);
         JTable table1 = new JTable(tm);
+        JTableHeader header = table1.getTableHeader();
 
         for (Movie m : movies) {
             Object[] o = new Object[6];
@@ -87,12 +116,7 @@ public class UserInterface implements Runnable {
 
         JPanel panelThree = new JPanel();
         panelThree.setLayout(new BorderLayout());
-        JPanel buttonPanel2 = new JPanel();
-        buttonPanel2.setLayout(new FlowLayout());
-        buttonPanel2.add(new JButton("Add"));
-        buttonPanel2.add(new JButton("Remove"));
-        buttonPanel2.add(new JButton("Edit"));
-        panelThree.add(buttonPanel2, BorderLayout.NORTH);
+        panelThree.add(header, BorderLayout.NORTH);
         panelThree.add(table1, BorderLayout.CENTER);
 
         // Fourth Panel: Series
