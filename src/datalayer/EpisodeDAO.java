@@ -55,7 +55,32 @@ public class EpisodeDAO implements IEpisode {
 
     @Override
     public Episode getEpisodeByID(int id) {
-        return null;
+
+        Connection conn = null;
+        Episode epi = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM episode\n" +
+                    "INNER JOIN video ON video.videoID = episode.videoID WHERE episode.episodeID = ?");
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int epId = resultSet.getInt("episodeID");
+                String title = resultSet.getString("videoTitle");
+                String duration = resultSet.getString("durage");
+                int season = resultSet.getInt("season");
+
+                epi = new Episode(epId,title,duration,season);
+
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+        return epi;
     }
 
     @Override

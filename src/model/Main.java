@@ -25,8 +25,8 @@ public class Main {
 //
 //        System.out.println(p.getProfileByID(3));
 
-//        SerieDAO a = SerieDAO.getInstance();
-//        System.out.println(a.getSerieByID(1));
+        SerieDAO a = SerieDAO.getInstance();
+        System.out.println(a.getAllEpisodesBySerie(a.getSerieByID(2)));
 
     }
 
