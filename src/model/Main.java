@@ -1,14 +1,14 @@
 package model;
 
-import datalayer.AccountDAO;
-import datalayer.EpisodeDAO;
-import datalayer.ProfileDAO;
+import view.UserInterface;
+
+import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) {
-//        UserInterface ui = new UserInterface();
-//        SwingUtilities.invokeLater(ui);
+        UserInterface ui = new UserInterface();
+        SwingUtilities.invokeLater(ui);
 
 //        EpisodeDAO e = EpisodeDAO.getInstance();
 //
@@ -16,13 +16,13 @@ public class Main {
 //            System.out.println(ep);
 //        }
 
-        ProfileDAO p = ProfileDAO.getInstance();
-
-        for (Profile pr : p.getAllProfiles()) {
-            System.out.println(pr);
-        }
-
-        p.deleteProfile(p.getProfileByID(1));
+//        ProfileDAO p = ProfileDAO.getInstance();
+//
+//        for (Profile pr : p.getAllProfiles()) {
+//            System.out.println(pr);
+//        }
+//
+//        System.out.println(p.getProfileByID(3));
 
     }
 
