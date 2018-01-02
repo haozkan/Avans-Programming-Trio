@@ -8,7 +8,7 @@ public interface ISerie {
 
     public List getAllSeries();
 
-    public Serie getSerieByID(Serie s);
+    public Serie getSerieByID(int s);
 
     public List getAllEpisodesBySerie(Serie s);
 }
