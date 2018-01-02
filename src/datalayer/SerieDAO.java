@@ -29,12 +29,12 @@ public class SerieDAO implements ISerie {
     public List getAllSeries() {
         ArrayList<Serie> series = new ArrayList<>();
         Connection conn = null;
-        try{
+        try {
             conn = MysqlDAO.getInstance().connect();
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM serie");
             ResultSet resultSet = statement.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 int id = resultSet.getInt("serieId");
                 String name = resultSet.getString("serieName");
                 int ageRating = resultSet.getInt("ageClassification");
@@ -42,10 +42,10 @@ public class SerieDAO implements ISerie {
                 String genre = resultSet.getString("genre");
                 String suggestion = resultSet.getString("suggestion");
 
-                Serie s = new Serie(id,name,ageRating,language,genre,suggestion);
+                Serie s = new Serie(id, name, ageRating, language, genre, suggestion);
                 series.add(s);
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             MysqlDAO.getInstance().closeConnection(conn);
@@ -72,7 +72,7 @@ public class SerieDAO implements ISerie {
                 String genre = resultSet.getString("genre");
                 String suggestion = resultSet.getString("suggestion");
 
-                serie = new Serie(id,name,ageRating,language,genre,suggestion);
+                serie = new Serie(id, name, ageRating, language, genre, suggestion);
 
             }
 
@@ -86,19 +86,28 @@ public class SerieDAO implements ISerie {
 
     @Override
     public List getAllEpisodesBySerie(Serie s) {
+        ArrayList<Episode> episodes = new ArrayList<>();
         Connection conn = null;
         Serie serie = null;
         Episode episode = null;
-        try{
-            conn= MysqlDAO.getInstance().connect();
+        try {
+            conn = MysqlDAO.getInstance().connect();
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM serie" +
-                    "INNER JOIN episode ON episode.serieID = serie.serieID WHERE serie = ?");
-            statement.setInt(1,s.getID());
+                    "INNER JOIN episode ON episode.serieID = serie.serieID WHERE serieID = ?");
+            statement.setInt(1, s.getID());
             ResultSet resultSet = statement.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
+                int id = resultSet.getInt("episodeID");
+                String title = resultSet.getString("videoTitle");
+                String duration = resultSet.getString("durage");
+                int season = resultSet.getInt("season");
 
+                Episode e = new Episode(id, title, duration, season);
+                episodes.add(e);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }

@@ -8,8 +8,8 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-//        UserInterface ui = new UserInterface();
-//        SwingUtilities.invokeLater(ui);
+        UserInterface ui = new UserInterface();
+        SwingUtilities.invokeLater(ui);
 
 //        EpisodeDAO e = EpisodeDAO.getInstance();
 //
@@ -25,8 +25,8 @@ public class Main {
 //
 //        System.out.println(p.getProfileByID(3));
 
-        SerieDAO a = SerieDAO.getInstance();
-        System.out.println(a.getSerieByID(1));
+//        SerieDAO a = SerieDAO.getInstance();
+//        System.out.println(a.getSerieByID(1));
 
     }
 
