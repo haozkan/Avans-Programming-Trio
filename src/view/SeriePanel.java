@@ -24,25 +24,22 @@ public class SeriePanel extends JPanel {
             comboBoxSerie.addItem(s);
         }
 
-        comboBoxSerie.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
+        comboBoxSerie.addActionListener(event -> {
 
-                // Clear Table
-                tmSerie.setRowCount(0);
+            // Clear Table
+            tmSerie.setRowCount(0);
 
-                // Get Selected Serie Object from ComboBox
-                Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
+            // Get Selected Serie Object from ComboBox
+            Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
 
-                // Get parameters and add as row
-                for (Episode e : SerieDAO.getInstance().getAllEpisodesBySerie(selectedSerie)) {
-                    Object[] o = new Object[4];
-                    o[0] = e.getId();
-                    o[1] = e.getTitle();
-                    o[2] = e.getDuration();
-                    o[3] = e.getSeason();
-                    tmSerie.addRow(o);
-                }
+            // Get parameters and add as row
+            for (Episode e : SerieDAO.getInstance().getAllEpisodesBySerie(selectedSerie)) {
+                Object[] o = new Object[4];
+                o[0] = e.getId();
+                o[1] = e.getTitle();
+                o[2] = e.getDuration();
+                o[3] = e.getSeason();
+                tmSerie.addRow(o);
             }
         });
 

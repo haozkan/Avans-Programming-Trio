@@ -9,20 +9,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AccountPanelListener extends JFrame implements ActionListener {
+public class AccountPanelEdit implements ActionListener {
 
     private JDialog frame;
 
-    public AccountPanelListener() {
-        frame = new JDialog(UserInterface.getFrame(), "Add account");
-        frame.setPreferredSize(new Dimension(400, 150));
+    AccountPanelEdit(int accountID) {
+        frame = new JDialog(UserInterface.getFrame(), "Edit account");
+        frame.setPreferredSize(new Dimension(400, 250));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-        createComponents(frame.getContentPane());
+        createComponents(frame.getContentPane(), accountID);
         frame.pack();
-        frame.setVisible(false);
+        frame.setVisible(true);
     }
 
-    private void createComponents(Container container) {
+    private void createComponents(Container container, int accountID) {
         container.setLayout(new BorderLayout());
 
         // Add padding to dialog
@@ -38,13 +38,19 @@ public class AccountPanelListener extends JFrame implements ActionListener {
         topText.add(new JLabel("Woonplaats"));
         container.add(topText, BorderLayout.WEST);
 
+        // Get Account
+        Account a = AccountDAO.getInstance().getAccountByID(accountID);
+
+        // Create textfields and fill them with Object properties
         JPanel inputFields = new JPanel();
         inputFields.setLayout(new GridLayout(5, 1));
-        JTextField name = new JTextField();
-        JTextField street = new JTextField();
-        JTextField houseNumber = new JTextField();
-        JTextField zipcode = new JTextField();
-        JTextField residence = new JTextField();
+        JTextField name = new JTextField(a.getAccountName());
+        JTextField street = new JTextField(a.getStreetname());
+        JTextField houseNumber = new JTextField(a.getHouseNumber());
+        JTextField zipcode = new JTextField(a.getZipcode());
+        JTextField residence = new JTextField(a.getResidence());
+
+        // Add Input fields to Panel
         inputFields.add(name);
         inputFields.add(street);
         inputFields.add(houseNumber);
@@ -52,42 +58,44 @@ public class AccountPanelListener extends JFrame implements ActionListener {
         inputFields.add(residence);
         container.add(inputFields, BorderLayout.CENTER);
 
+        // Update button updates Account and exits dialog
         JPanel bottomButtons = new JPanel();
         bottomButtons.setLayout(new FlowLayout());
-        JButton addButton = new JButton("Add");
+        JButton addButton = new JButton("Opslaan");
         bottomButtons.add(addButton);
         addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Account a = new Account(name.getText(), street.getText(), houseNumber.getText(), zipcode.getText(), residence.getText());
-                AccountDAO.getInstance().createAccount(a);
-                UserInterface.getAccountpanel().updateAccountTable();
-                frame.setVisible(false);
+                try {
+                    // Update Account
+                    Account a = new Account(accountID, name.getText(), street.getText(), houseNumber.getText(), zipcode.getText(), residence.getText());
+                    AccountDAO.getInstance().updateAccount(a);
+
+                    // Update Account Table
+                    UserInterface.getAccountpanel().updateAccountTable();
+
+                    // Close dialog
+                    frame.setVisible(false);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
             }
         });
-        JButton cancelButton = new JButton("Cancel");
+
+        // Cancel button clears fields and exits dialog
+        JButton cancelButton = new JButton("Annuleren");
         bottomButtons.add(cancelButton);
         cancelButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
-                name.setText("");
-                street.setText("");
-                houseNumber.setText("");
-                zipcode.setText("");
-                residence.setText("");
             }
         });
-
         container.add(bottomButtons, BorderLayout.SOUTH);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setVisible(true);
-    }
-
-    public JDialog getFrame() {
-        return frame;
     }
 }

@@ -4,8 +4,9 @@ import datalayer.AccountDAO;
 import model.Account;
 
 import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -48,45 +49,68 @@ public class AccountPanel extends JPanel {
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
 
+        // Edit button is disabled on init
+        editButton.setEnabled(false);
+
         // Add Button Action
-        addButton.addActionListener(new AccountPanelListener());
+        addButton.addActionListener(new AccountPanelAdd());
 
-        // Delete Buton Action
-        deleteButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        // Delete Button Action
+        deleteButton.addActionListener(e -> {
 
-                // Reset values
-                int selectedRow = 0;
-                int selectedID = -1;
+            // Reset values
+            int selectedRow = 0;
+            int selectedID = -1;
 
-                // Get selected row and ID
-                selectedRow = tableAccount.getSelectedRow();
-                selectedID = Integer.parseInt(tableAccount.getValueAt(selectedRow, 0).toString());
+            // Get selected row and ID
+            selectedRow = tableAccount.getSelectedRow();
+            selectedID = Integer.parseInt(tableAccount.getValueAt(selectedRow, 0).toString());
 
-                // Show User Diaglog
-                String[] options = new String[2];
-                options[0] = "Verwijderen";
-                options[1] = "Annuleren";
-                int dialogResult = JOptionPane.showOptionDialog(
-                        UserInterface.getFrame(),
-                        "Bij het verwijderen van een account worden alle onderliggende profielen verwijderd, weet u zeker dat u wilt doorgaan?",
-                        "Account Verwijderen",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
+            // Show User Dialog
+            String[] options = new String[2];
+            options[0] = "Verwijderen";
+            options[1] = "Annuleren";
+            int dialogResult = JOptionPane.showOptionDialog(
+                    UserInterface.getFrame(),
+                    "Bij het verwijderen van een account worden alle onderliggende profielen verwijderd, weet u zeker dat u wilt doorgaan?",
+                    "Account Verwijderen",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
 
-                // Delete Account if user selected YES
-                if (dialogResult == JOptionPane.YES_OPTION && selectedID > -1) {
-                    AccountDAO.getInstance().deleteAccountByID(selectedID);
-                }
-
-                // Refresh Account and Profile Tables
-                updateAccountTable();
-                UserInterface.getProfilePanel().updateProfileTable();
-
+            // Delete Account if user selected YES
+            if (dialogResult == JOptionPane.YES_OPTION && selectedID > -1) {
+                AccountDAO.getInstance().deleteAccountByID(selectedID);
             }
+
+            // Refresh Account and Profile Tables
+            updateAccountTable();
+            UserInterface.getProfilePanel().updateProfileTable();
+
         });
 
-        // Add Pannels to AccountPanel
+        // Edit Button Action
+        editButton.addActionListener(e -> {
+
+            // Reset values
+            int selectedRow = 0;
+            int selectedID = -1;
+
+            // Get selected row and ID
+            selectedRow = tableAccount.getSelectedRow();
+            selectedID = Integer.parseInt(tableAccount.getValueAt(selectedRow, 0).toString());
+
+            // Open Edit Frame
+            AccountPanelEdit editPanel = new AccountPanelEdit(selectedID);
+        });
+
+        // Enable or disable editButton on valueChanged
+        ListSelectionModel listSelectionModel = tableAccount.getSelectionModel();
+
+        listSelectionModel.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            editButton.setEnabled(!lsm.isSelectionEmpty());
+        });
+
+        // Add Panels to AccountPanel
         this.setLayout(new BorderLayout());
         this.add(panelButtons, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
