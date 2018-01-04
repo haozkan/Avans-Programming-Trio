@@ -2,6 +2,7 @@ package datalayer;
 
 import datalayerinterface.IAccount;
 import model.Account;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -133,6 +134,22 @@ public class AccountDAO implements IAccount {
                     + "DELETE FROM account "
                     + "WHERE accountID = ?");
             statement.setInt(1, a.getAccountNumber());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    }
+
+    public void deleteAccountByID(int id) {
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement(""
+                    + "DELETE FROM account "
+                    + "WHERE accountID = ?");
+            statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

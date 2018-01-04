@@ -3,25 +3,24 @@ package view;
 import datalayer.SerieDAO;
 import model.Episode;
 import model.Serie;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 public class SeriePanel extends JPanel{
-    SeriePanel() {
-        List<Serie> series = SerieDAO.getInstance().getAllSeries();
-        String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
-        DefaultTableModel tmSerie = new DefaultTableModel(columnNamesSerie, 0);
-        JTable tableSeries = new JTable(tmSerie);
-        JTableHeader headerSerie = tableSeries.getTableHeader();
-        JComboBox comboBoxSerie = new JComboBox();
 
-        for (Serie s : series) {
+    private String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
+    private DefaultTableModel tmSerie = new DefaultTableModel(columnNamesSerie, 0);
+    private JTable tableSeries = new JTable(tmSerie);
+    private JTableHeader headerSerie = tableSeries.getTableHeader();
+    private JComboBox<Serie> comboBoxSerie = new JComboBox<>();
+
+    SeriePanel() {
+
+        for (Serie s : SerieDAO.getInstance().getAllSeries()) {
             comboBoxSerie.addItem(s);
         }
 
@@ -60,6 +59,23 @@ public class SeriePanel extends JPanel{
 
         this.add(panelFourCombo, BorderLayout.NORTH);
         this.add(panelFourTable, BorderLayout.CENTER);
+    }
+
+    public void updateSerieTable() {
+        tmSerie.setRowCount(0);
+
+        // Get Selected Serie Object from ComboBox
+        Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
+
+        // Get parameters and add as row
+        for (Episode e : SerieDAO.getInstance().getAllEpisodesBySerie(selectedSerie)) {
+            Object[] o = new Object[4];
+            o[0] = e.getId();
+            o[1] = e.getTitle();
+            o[2] = e.getDuration();
+            o[3] = e.getSeason();
+            tmSerie.addRow(o);
+        }
     }
 
 }

@@ -22,17 +22,14 @@ public class UserInterface implements Runnable {
     private static ProfilePanel profilePanel = new ProfilePanel();
     private static MoviePanel moviePanel = new MoviePanel();
     private static SeriePanel seriePanel = new SeriePanel();
-    private JFrame frame;
+    private static JFrame frame;
 
     @Override
     public void run() {
         frame = new JFrame("Netflix statistix");
         frame.setPreferredSize(new Dimension(500, 400));
-
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
         createComponents(frame.getContentPane());
-
         frame.pack();
         frame.setVisible(true);
     }
@@ -80,7 +77,7 @@ public class UserInterface implements Runnable {
         return seriePanel;
     }
 
-    public JFrame getFrame() {
+    public static JFrame getFrame() {
         return frame;
     }
 }

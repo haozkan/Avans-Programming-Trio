@@ -7,6 +7,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AccountPanel extends JPanel {
 
@@ -35,10 +37,47 @@ public class AccountPanel extends JPanel {
         JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new FlowLayout());
         JButton addButton = new JButton("Add");
+        JButton editButton = new JButton("Edit");
+        JButton deleteButton = new JButton("Delete");
+
         panelButtons.add(addButton);
+        panelButtons.add(editButton);
+        panelButtons.add(deleteButton);
+
         addButton.addActionListener(new AccountPanelListener());
-        panelButtons.add(new JButton("Edit"));
-        panelButtons.add(new JButton("Delete"));
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                // Reset values
+                int selectedRow = 0;
+                int selectedID = -1;
+
+                // Get selected row and ID
+                selectedRow = tableAccount.getSelectedRow();
+                selectedID = Integer.parseInt(tableAccount.getValueAt(selectedRow, 0).toString());
+
+                // Show User Diaglog
+                String[] options = new String[2];
+                options[0] = "Verwijderen";
+                options[1] = "Annuleren";
+                int dialogResult = JOptionPane.showOptionDialog(
+                        UserInterface.getFrame(),
+                        "Bij het verwijderen van een account worden alle onderliggende profielen verwijderd, weet u zeker dat u wilt doorgaan?",
+                        "Account Verwijderen",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
+
+                // Delete Account if user selected YES
+                if (dialogResult == JOptionPane.YES_OPTION && selectedID > -1) {
+                    AccountDAO.getInstance().deleteAccountByID(selectedID);
+                }
+
+                // Refresh Account and Profile Tables
+                updateAccountTable();
+                UserInterface.getProfilePanel().updateProfileTable();
+
+            }
+        });
 
         this.setLayout(new BorderLayout());
         this.add(panelButtons, BorderLayout.NORTH);
