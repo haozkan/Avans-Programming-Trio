@@ -1,5 +1,7 @@
 package view;
 
+import javafx.geometry.Pos;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -25,19 +27,26 @@ public class AccountPanelListener extends JFrame implements ActionListener {
         container.setLayout(new BorderLayout());
 
         JPanel topText = new JPanel();
-        topText.setLayout(new GridLayout(1,4));
+        topText.setLayout(new GridLayout(5,1));
         topText.add(new JLabel("Street"));
         topText.add(new JLabel("Huisnummer"));
         topText.add(new JLabel("Naam"));
-        topText.add(new JLabel("En nog iets?"));
-        container.add(topText, BorderLayout.NORTH);
+        topText.add(new JLabel("Postcode"));
+        topText.add(new JLabel("Woonplaats"));
+        container.add(topText, BorderLayout.WEST);
 
         JPanel inputFields = new JPanel();
-        inputFields.setLayout(new GridLayout(1,4));
-        inputFields.add(new JTextField());
-        inputFields.add(new JTextField());
-        inputFields.add(new JTextField());
-        inputFields.add(new JTextField());
+        inputFields.setLayout(new GridLayout(5,1));
+        JTextField street = new JTextField();
+        JTextField Huisnummer = new JTextField();
+        JTextField Naam = new JTextField();
+        JTextField Postcode = new JTextField();
+        JTextField Woonplaats = new JTextField();
+        inputFields.add(street);
+        inputFields.add(Huisnummer);
+        inputFields.add(Naam);
+        inputFields.add(Postcode);
+        inputFields.add(Woonplaats);
         container.add(inputFields, BorderLayout.CENTER);
 
         JPanel bottomButtons = new JPanel();
@@ -56,6 +65,12 @@ public class AccountPanelListener extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
+                street.setText("");
+                Huisnummer.setText("");
+                Naam.setText("");
+                Postcode.setText("");
+                Woonplaats.setText("");
+
             }
         });
 
