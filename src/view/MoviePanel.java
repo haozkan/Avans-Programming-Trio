@@ -13,11 +13,8 @@ public class MoviePanel extends JPanel {
     private String[] columnNames = {"ID", "Titel", "Duratie", "Genre", "Taal", "Leeftijd"};
     private DefaultTableModel tm = new DefaultTableModel(columnNames, 0);
     private JTable tableMovie = new JTable(tm);
-    private JTableHeader header = tableMovie.getTableHeader();
 
     MoviePanel() {
-
-        tableMovie.setDefaultEditor(Object.class, null);
 
         for (Movie m : MovieDAO.getInstance().getAllMovies()) {
             Object[] o = new Object[6];
@@ -31,8 +28,10 @@ public class MoviePanel extends JPanel {
         }
 
         this.setLayout(new BorderLayout());
-        this.add(header, BorderLayout.NORTH);
-        this.add(tableMovie, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(tableMovie);
+        tableMovie.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableMovie.setDefaultEditor(Object.class, null);
+        this.add(scrollPane, BorderLayout.CENTER);
     }
 
     public void updateMovieTable() {

@@ -15,9 +15,10 @@ public class AccountPanel extends JPanel {
     private String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
     private DefaultTableModel tmAccount = new DefaultTableModel(columnNamesAccount, 0);
     private JTable tableAccount = new JTable(tmAccount);
-    private JTableHeader headerAccount = tableAccount.getTableHeader();
 
     AccountPanel() {
+
+        // Get rows from database
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             Object[] o = new Object[6];
             o[0] = a.getAccountNumber();
@@ -29,22 +30,28 @@ public class AccountPanel extends JPanel {
             tmAccount.addRow(o);
         }
 
+        // Table Panel
         JPanel panelTable = new JPanel();
         panelTable.setLayout(new BorderLayout());
-        panelTable.add(headerAccount, BorderLayout.NORTH);
-        panelTable.add(tableAccount, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(tableAccount);
+        tableAccount.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableAccount.setDefaultEditor(Object.class, null);
+        panelTable.add(scrollPane, BorderLayout.CENTER);
 
+        // Button Panel
         JPanel panelButtons = new JPanel();
-        panelButtons.setLayout(new FlowLayout());
+        panelButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
         JButton addButton = new JButton("Add");
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
-
         panelButtons.add(addButton);
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
 
+        // Add Button Action
         addButton.addActionListener(new AccountPanelListener());
+
+        // Delete Buton Action
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,13 +86,17 @@ public class AccountPanel extends JPanel {
             }
         });
 
+        // Add Pannels to AccountPanel
         this.setLayout(new BorderLayout());
         this.add(panelButtons, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
     }
 
     public void updateAccountTable() {
+        // Clear Table
         tmAccount.setRowCount(0);
+
+        // Get rows from database
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             Object[] o = new Object[6];
             o[0] = a.getAccountNumber();

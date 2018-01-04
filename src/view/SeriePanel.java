@@ -3,6 +3,7 @@ package view;
 import datalayer.SerieDAO;
 import model.Episode;
 import model.Serie;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -10,12 +11,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SeriePanel extends JPanel{
+public class SeriePanel extends JPanel {
 
     private String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
     private DefaultTableModel tmSerie = new DefaultTableModel(columnNamesSerie, 0);
     private JTable tableSeries = new JTable(tmSerie);
-    private JTableHeader headerSerie = tableSeries.getTableHeader();
     private JComboBox<Serie> comboBoxSerie = new JComboBox<>();
 
     SeriePanel() {
@@ -54,8 +54,10 @@ public class SeriePanel extends JPanel{
 
         JPanel panelFourTable = new JPanel();
         panelFourTable.setLayout(new BorderLayout());
-        panelFourTable.add(headerSerie, BorderLayout.NORTH);
-        panelFourTable.add(tableSeries, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(tableSeries);
+        tableSeries.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tableSeries.setDefaultEditor(Object.class, null);
+        panelFourTable.add(scrollPane, BorderLayout.CENTER);
 
         this.add(panelFourCombo, BorderLayout.NORTH);
         this.add(panelFourTable, BorderLayout.CENTER);

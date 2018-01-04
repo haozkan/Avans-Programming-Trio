@@ -1,35 +1,36 @@
 package view;
 
 import datalayer.AccountDAO;
-import javafx.geometry.Pos;
 import model.Account;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AccountPanelListener extends JFrame implements ActionListener {
 
-    private JFrame frame;
+    private JDialog frame;
 
-    public AccountPanelListener(){
-        frame = new JFrame("Add account");
-        frame.setPreferredSize(new Dimension(400,150));
-
+    public AccountPanelListener() {
+        frame = new JDialog(UserInterface.getFrame(), "Add account");
+        frame.setPreferredSize(new Dimension(400, 150));
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-
         createComponents(frame.getContentPane());
-
         frame.pack();
         frame.setVisible(false);
     }
 
-    private void createComponents(Container container){
+    private void createComponents(Container container) {
         container.setLayout(new BorderLayout());
 
+        // Add padding to dialog
+        JPanel panel = (JPanel) frame.getContentPane();
+        panel.setBorder(new EmptyBorder(5, 5, 5, 5));
+
         JPanel topText = new JPanel();
-        topText.setLayout(new GridLayout(5,1));
+        topText.setLayout(new GridLayout(5, 1));
         topText.add(new JLabel("Naam"));
         topText.add(new JLabel("Straat"));
         topText.add(new JLabel("Huisnummer"));
@@ -38,7 +39,7 @@ public class AccountPanelListener extends JFrame implements ActionListener {
         container.add(topText, BorderLayout.WEST);
 
         JPanel inputFields = new JPanel();
-        inputFields.setLayout(new GridLayout(5,1));
+        inputFields.setLayout(new GridLayout(5, 1));
         JTextField name = new JTextField();
         JTextField street = new JTextField();
         JTextField houseNumber = new JTextField();
@@ -58,7 +59,7 @@ public class AccountPanelListener extends JFrame implements ActionListener {
         addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Account a = new Account(name.getText(),street.getText(),houseNumber.getText(),zipcode.getText(),residence.getText());
+                Account a = new Account(name.getText(), street.getText(), houseNumber.getText(), zipcode.getText(), residence.getText());
                 AccountDAO.getInstance().createAccount(a);
                 UserInterface.getAccountpanel().updateAccountTable();
                 frame.setVisible(false);
@@ -86,7 +87,7 @@ public class AccountPanelListener extends JFrame implements ActionListener {
         frame.setVisible(true);
     }
 
-    public JFrame getFrame() {
+    public JDialog getFrame() {
         return frame;
     }
 }
