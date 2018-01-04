@@ -40,16 +40,13 @@ public class UserInterface implements Runnable {
     }
 
     public JPanel leftButtons() {
-
         JPanel panel = new JPanel();
-
         JTabbedPane pane = new JTabbedPane();
         pane.setTabPlacement(LEFT);
         pane.addTab("Account", new AccountPanel());
         pane.addTab("Profiel", new ProfilePanel());
         pane.addTab("Movie", new MoviePanel());
         pane.addTab("Serie", new SeriePanel());
-        
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(pane);
 

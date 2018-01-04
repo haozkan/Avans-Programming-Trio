@@ -29,8 +29,19 @@ public class AccountPanel extends JPanel {
             tmAccount.addRow(o);
         }
 
+        JPanel panelTable = new JPanel();
+        panelTable.setLayout(new BorderLayout());
+        panelTable.add(headerAccount, BorderLayout.NORTH);
+        panelTable.add(tableAccount, BorderLayout.CENTER);
+
+        JPanel panelButtons = new JPanel();
+        panelButtons.setLayout(new FlowLayout());
+        panelButtons.add(new JButton("Add"));
+        panelButtons.add(new JButton("Edit"));
+        panelButtons.add(new JButton("Delete"));
+
         this.setLayout(new BorderLayout());
-        this.add(headerAccount, BorderLayout.NORTH);
-        this.add(tableAccount, BorderLayout.CENTER);
+        this.add(panelButtons, BorderLayout.NORTH);
+        this.add(panelTable, BorderLayout.CENTER);
     }
 }
