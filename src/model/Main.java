@@ -1,6 +1,6 @@
 package model;
 
-import datalayer.SerieDAO;
+import datalayer.MysqlDAO;
 import view.UserInterface;
 
 import javax.swing.*;
@@ -8,25 +8,13 @@ import javax.swing.*;
 public class Main {
 
     public static void main(String[] args) {
-        UserInterface ui = new UserInterface();
-        SwingUtilities.invokeLater(ui);
 
-//        EpisodeDAO e = EpisodeDAO.getInstance();
-//
-//        for (Episode ep : e.getAllEpisodes()) {
-//            System.out.println(ep);
-//        }
-
-//        ProfileDAO p = ProfileDAO.getInstance();
-//
-//        for (Profile pr : p.getAllProfiles()) {
-//            System.out.println(pr);
-//        }
-//
-//        System.out.println(p.getProfileByID(3));
-
-        SerieDAO a = SerieDAO.getInstance();
-        System.out.println(a.getAllEpisodesBySerie(a.getSerieByID(2)));
+        if (MysqlDAO.getInstance().connect() != null) {
+            UserInterface ui = new UserInterface();
+            SwingUtilities.invokeLater(ui);
+        } else {
+            System.out.println("Geen database connection");
+        }
 
     }
 

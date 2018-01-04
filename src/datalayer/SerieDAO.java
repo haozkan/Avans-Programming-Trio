@@ -26,7 +26,7 @@ public class SerieDAO implements ISerie {
     }
 
     @Override
-    public List getAllSeries() {
+    public List<Serie> getAllSeries() {
         ArrayList<Serie> series = new ArrayList<>();
         Connection conn = null;
         try {
@@ -85,7 +85,7 @@ public class SerieDAO implements ISerie {
     }
 
     @Override
-    public List getAllEpisodesBySerie(Serie s) {
+    public List<Episode> getAllEpisodesBySerie(Serie s) {
         ArrayList<Episode> episodes = new ArrayList<>();
         Connection conn = null;
         Serie serie = null;

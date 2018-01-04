@@ -3,11 +3,12 @@ package view;
 import datalayer.AccountDAO;
 import datalayer.MovieDAO;
 import datalayer.ProfileDAO;
-import model.Account;
-import model.Movie;
-import model.Profile;
+import datalayer.SerieDAO;
+import model.*;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -18,7 +19,6 @@ import static javax.swing.SwingConstants.LEFT;
 public class UserInterface implements Runnable {
 
     private JFrame frame;
-    private String series[] = {"test1", "test2", "test3"};
 
     @Override
     public void run() {
@@ -121,8 +121,53 @@ public class UserInterface implements Runnable {
 
         // Fourth Panel: Series
         // --------------------------------------------------.
+        List<Serie> series = SerieDAO.getInstance().getAllSeries();
+        String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
+        DefaultTableModel tmSerie = new DefaultTableModel(columnNamesSerie, 0);
+        JTable tableSeries = new JTable(tmSerie);
+        JTableHeader headerSerie = tableSeries.getTableHeader();
+        JComboBox comboBoxSerie = new JComboBox();
+
+        for (Serie s : series) {
+            comboBoxSerie.addItem(s);
+        }
+
+        comboBoxSerie.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+
+                // Clear Table
+                tmSerie.setRowCount(0);
+
+                // Get Selected Serie Object from ComboBox
+                Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
+
+                // Get parameters and add as row
+                for (Episode e : SerieDAO.getInstance().getAllEpisodesBySerie(selectedSerie)) {
+                    Object[] o = new Object[4];
+                    o[0] = e.getId();
+                    o[1] = e.getTitle();
+                    o[2] = e.getDuration();
+                    o[3] = e.getSeason();
+                    tmSerie.addRow(o);
+                }
+            }
+        });
+
         JPanel panelFour = new JPanel();
-        panelFour.add(new JLabel("test4"));
+        panelFour.setLayout(new BorderLayout());
+
+        JPanel panelFourCombo = new JPanel();
+        panelFourCombo.setLayout(new BorderLayout());
+        panelFourCombo.add(comboBoxSerie, BorderLayout.CENTER);
+
+        JPanel panelFourTable = new JPanel();
+        panelFourTable.setLayout(new BorderLayout());
+        panelFourTable.add(headerSerie, BorderLayout.NORTH);
+        panelFourTable.add(tableSeries, BorderLayout.CENTER);
+
+        panelFour.add(panelFourCombo, BorderLayout.NORTH);
+        panelFour.add(panelFourTable, BorderLayout.CENTER);
 
         // Construct TabMenu
         // --------------------------------------------------.
@@ -136,26 +181,6 @@ public class UserInterface implements Runnable {
         panel.add(pane);
 
         return panel;
-    }
-
-    public JPanel toolbar() {
-
-        //Original toolbar, discontinued
-        JPanel upper = new JPanel();
-        upper.setLayout(new FlowLayout());
-        upper.add(new JLabel("Select serie"));
-        upper.add(new JComboBox(series));
-
-        JPanel lower = new JPanel();
-        lower.add(new JLabel("Results: "));
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.add(upper, BorderLayout.NORTH);
-        panel.add(lower, BorderLayout.SOUTH);
-
-        return panel;
-
     }
 
     public JPanel bottomBar() {
