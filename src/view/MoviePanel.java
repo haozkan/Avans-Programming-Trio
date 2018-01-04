@@ -16,6 +16,7 @@ public class MoviePanel extends JPanel {
         DefaultTableModel tm = new DefaultTableModel(columnNames, 0);
         JTable table1 = new JTable(tm);
         JTableHeader header = table1.getTableHeader();
+        table1.setDefaultEditor(Object.class, null);
 
         for (Movie m : movies) {
             Object[] o = new Object[6];

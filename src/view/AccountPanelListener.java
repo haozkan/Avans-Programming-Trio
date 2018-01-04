@@ -60,6 +60,7 @@ public class AccountPanelListener extends JFrame implements ActionListener {
             public void actionPerformed(ActionEvent e) {
                 Account a = new Account(name.getText(),street.getText(),houseNumber.getText(),zipcode.getText(),residence.getText());
                 AccountDAO.getInstance().createAccount(a);
+                UserInterface.getAccountpanel().updateAccountTable();
                 frame.setVisible(false);
             }
         });
@@ -74,7 +75,6 @@ public class AccountPanelListener extends JFrame implements ActionListener {
                 houseNumber.setText("");
                 zipcode.setText("");
                 residence.setText("");
-
             }
         });
 

@@ -7,18 +7,16 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.util.List;
 
 public class AccountPanel extends JPanel {
 
-    AccountPanel() {
-        List<Account> accounts = AccountDAO.getInstance().getAllAccounts();
-        String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
-        DefaultTableModel tmAccount = new DefaultTableModel(columnNamesAccount, 0);
-        JTable tableAccount = new JTable(tmAccount);
-        JTableHeader headerAccount = tableAccount.getTableHeader();
+    private String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
+    private DefaultTableModel tmAccount = new DefaultTableModel(columnNamesAccount, 0);
+    private JTable tableAccount = new JTable(tmAccount);
+    private JTableHeader headerAccount = tableAccount.getTableHeader();
 
-        for (Account a : accounts) {
+    AccountPanel() {
+        for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             Object[] o = new Object[6];
             o[0] = a.getAccountNumber();
             o[1] = a.getAccountName();
@@ -45,5 +43,19 @@ public class AccountPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(panelButtons, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
+    }
+
+    public void updateAccountTable() {
+        tmAccount.setRowCount(0);
+        for (Account a : AccountDAO.getInstance().getAllAccounts()) {
+            Object[] o = new Object[6];
+            o[0] = a.getAccountNumber();
+            o[1] = a.getAccountName();
+            o[2] = a.getStreetname();
+            o[3] = a.getHouseNumber();
+            o[4] = a.getZipcode();
+            o[5] = a.getResidence();
+            tmAccount.addRow(o);
+        }
     }
 }
