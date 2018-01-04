@@ -46,7 +46,7 @@ public class UserInterface implements Runnable {
         container.add(bottomBar(), BorderLayout.SOUTH);
     }
 
-    public JPanel leftButtons() {
+    private JPanel leftButtons() {
         JPanel panel = new JPanel();
         JTabbedPane pane = new JTabbedPane();
         pane.setTabPlacement(LEFT);
@@ -60,7 +60,7 @@ public class UserInterface implements Runnable {
         return panel;
     }
 
-    public JPanel bottomBar() {
+    private JPanel bottomBar() {
         JPanel panel = new JPanel();
         panel.add(new JLabel("Netflix Statistix"));
         panel.add(new JLabel("Informatica klas1E - Djim Oomes, Marco van Poortvliet"));
