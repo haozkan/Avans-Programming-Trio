@@ -36,7 +36,9 @@ public class AccountPanel extends JPanel {
 
         JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new FlowLayout());
-        panelButtons.add(new JButton("Add"));
+        JButton addButton = new JButton("Add");
+        panelButtons.add(addButton);
+        addButton.addActionListener(new AccountPanelListener());
         panelButtons.add(new JButton("Edit"));
         panelButtons.add(new JButton("Delete"));
 
