@@ -1,6 +1,8 @@
 package view;
 
+import datalayer.AccountDAO;
 import javafx.geometry.Pos;
+import model.Account;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,25 +30,25 @@ public class AccountPanelListener extends JFrame implements ActionListener {
 
         JPanel topText = new JPanel();
         topText.setLayout(new GridLayout(5,1));
-        topText.add(new JLabel("Street"));
-        topText.add(new JLabel("Huisnummer"));
         topText.add(new JLabel("Naam"));
+        topText.add(new JLabel("Straat"));
+        topText.add(new JLabel("Huisnummer"));
         topText.add(new JLabel("Postcode"));
         topText.add(new JLabel("Woonplaats"));
         container.add(topText, BorderLayout.WEST);
 
         JPanel inputFields = new JPanel();
         inputFields.setLayout(new GridLayout(5,1));
+        JTextField name = new JTextField();
         JTextField street = new JTextField();
-        JTextField Huisnummer = new JTextField();
-        JTextField Naam = new JTextField();
-        JTextField Postcode = new JTextField();
-        JTextField Woonplaats = new JTextField();
+        JTextField houseNumber = new JTextField();
+        JTextField zipcode = new JTextField();
+        JTextField residence = new JTextField();
+        inputFields.add(name);
         inputFields.add(street);
-        inputFields.add(Huisnummer);
-        inputFields.add(Naam);
-        inputFields.add(Postcode);
-        inputFields.add(Woonplaats);
+        inputFields.add(houseNumber);
+        inputFields.add(zipcode);
+        inputFields.add(residence);
         container.add(inputFields, BorderLayout.CENTER);
 
         JPanel bottomButtons = new JPanel();
@@ -56,7 +58,9 @@ public class AccountPanelListener extends JFrame implements ActionListener {
         addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Hier dus de waardes van de inputfield innemen
+                Account a = new Account(name.getText(),street.getText(),houseNumber.getText(),zipcode.getText(),residence.getText());
+                AccountDAO.getInstance().createAccount(a);
+                frame.setVisible(false);
             }
         });
         JButton cancelButton = new JButton("Cancel");
@@ -65,11 +69,11 @@ public class AccountPanelListener extends JFrame implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
+                name.setText("");
                 street.setText("");
-                Huisnummer.setText("");
-                Naam.setText("");
-                Postcode.setText("");
-                Woonplaats.setText("");
+                houseNumber.setText("");
+                zipcode.setText("");
+                residence.setText("");
 
             }
         });
