@@ -16,4 +16,8 @@ public interface IProfile {
 
     public void deleteProfile(Profile p);
 
+    public void addProfile(Profile p);
+
+    public void edditProfile(Profile p);
+
 }

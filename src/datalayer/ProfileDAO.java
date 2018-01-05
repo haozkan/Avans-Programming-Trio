@@ -130,4 +130,39 @@ public class ProfileDAO implements IProfile {
             MysqlDAO.getInstance().closeConnection(conn);
         }
     }
+
+    @Override
+    public void addProfile(Profile p) {
+        Connection conn = null;
+        try{
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO `profile` (`profileName`, `dateofBirth`)" +
+                    "VALUES (?,?) ");
+            statement.setString(1,p.getProfileName());
+            statement.setDate(2,p.getDateOfBirth());
+            statement.executeUpdate();
+        } catch(SQLException ex){
+            ex.printStackTrace();
+        } finally{
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    }
+
+    @Override
+    public void edditProfile(Profile p) {
+        Connection conn = null;
+        try{
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("UPDATE `profile` SET `profileName` =? ," +
+                    "`dateofBirth` =? WHERE profileID = ?");
+            statement.setString(1,p.getProfileName());
+            statement.setDate(2,p.getDateOfBirth());
+            statement.setInt(3,p.getProfileID());
+            statement.executeUpdate();
+        } catch(SQLException ex){
+            ex.printStackTrace();
+        }finally{
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    }
 }
