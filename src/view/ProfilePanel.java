@@ -1,5 +1,6 @@
 package view;
 
+import datalayer.AccountDAO;
 import datalayer.ProfileDAO;
 import model.Profile;
 
@@ -43,8 +44,56 @@ public class ProfilePanel extends JPanel {
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
 
+        // Edit and Delete buttons are disabled on init
+        editButton.setEnabled(false);
+        deleteButton.setEnabled(false);
+
+        ListSelectionModel listSelectionModel = tableProfile.getSelectionModel();
+
+        // Disable delete button if selection is empty
+        listSelectionModel.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            deleteButton.setEnabled(!lsm.isSelectionEmpty());
+        });
+
+        // Disable edit button if selection is empty
+        listSelectionModel.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            editButton.setEnabled(!lsm.isSelectionEmpty());
+        });
+
+
         this.add(panelButtons, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
+
+        deleteButton.addActionListener(e -> {
+
+            // Reset values
+            int selectedRow = 0;
+            int selectedID = -1;
+
+            // Get selected row and ID
+            selectedRow = tableProfile.getSelectedRow();
+            selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+            // Show User Dialog
+            String[] options = new String[2];
+            options[0] = "Verwijderen";
+            options[1] = "Annuleren";
+            int dialogResult = JOptionPane.showOptionDialog(
+                    UserInterface.getFrame(),
+                    "Weet u zeker dat u dit profiel wil verwijderen?",
+                    "Profiel Verwijderen",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE, null, options, null);
+
+            // Delete Account if user selected YES
+            if (dialogResult == JOptionPane.YES_OPTION && selectedID > -1) {
+                ProfileDAO.getInstance().deleteProfile(ProfileDAO.getInstance().getProfileByID(selectedID));
+            }
+
+            // Refresh Account and Profile Tables
+            updateProfileTable();
+        });
     }
 
     public void updateProfileTable() {

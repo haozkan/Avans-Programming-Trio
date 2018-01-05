@@ -45,8 +45,9 @@ public class AccountPanel extends JPanel {
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
 
-        // Edit button is disabled on init
+        // Edit and Delete buttons are disabled on init
         editButton.setEnabled(false);
+        deleteButton.setEnabled(false);
 
         // Add Button Action
         addButton.addActionListener(e -> {
@@ -100,9 +101,15 @@ public class AccountPanel extends JPanel {
             AccountPanelEdit editPanel = new AccountPanelEdit(selectedID);
         });
 
-        // Enable or disable editButton on valueChanged
         ListSelectionModel listSelectionModel = tableAccount.getSelectionModel();
 
+        // Disable delete button if selection is empty
+        listSelectionModel.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            deleteButton.setEnabled(!lsm.isSelectionEmpty());
+        });
+
+        // Disable edit button if selection is empty
         listSelectionModel.addListSelectionListener(e -> {
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
             editButton.setEnabled(!lsm.isSelectionEmpty());
