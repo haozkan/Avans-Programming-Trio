@@ -4,12 +4,8 @@ import datalayer.AccountDAO;
 import model.Account;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class AccountPanel extends JPanel {
 
@@ -53,7 +49,9 @@ public class AccountPanel extends JPanel {
         editButton.setEnabled(false);
 
         // Add Button Action
-        addButton.addActionListener(new AccountPanelAdd());
+        addButton.addActionListener(e -> {
+            new AccountPanelAdd();
+        });
 
         // Delete Button Action
         deleteButton.addActionListener(e -> {

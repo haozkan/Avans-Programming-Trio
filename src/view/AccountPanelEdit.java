@@ -9,14 +9,16 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AccountPanelEdit implements ActionListener {
+public class AccountPanelEdit extends JFrame implements ActionListener {
 
     private JDialog frame;
 
     AccountPanelEdit(int accountID) {
         frame = new JDialog(UserInterface.getFrame(), "Edit account");
         frame.setPreferredSize(new Dimension(400, 250));
+        frame.setLocationRelativeTo(UserInterface.getFrame());
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        frame.setResizable(Boolean.FALSE);
         createComponents(frame.getContentPane(), accountID);
         frame.pack();
         frame.setVisible(true);
@@ -29,21 +31,12 @@ public class AccountPanelEdit implements ActionListener {
         JPanel panel = (JPanel) frame.getContentPane();
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-        JPanel topText = new JPanel();
-        topText.setLayout(new GridLayout(5, 1));
-        topText.add(new JLabel("Naam"));
-        topText.add(new JLabel("Straat"));
-        topText.add(new JLabel("Huisnummer"));
-        topText.add(new JLabel("Postcode"));
-        topText.add(new JLabel("Woonplaats"));
-        container.add(topText, BorderLayout.WEST);
-
         // Get Account
         Account a = AccountDAO.getInstance().getAccountByID(accountID);
 
         // Create textfields and fill them with Object properties
         JPanel inputFields = new JPanel();
-        inputFields.setLayout(new GridLayout(5, 1));
+        inputFields.setLayout(new GridLayout(0, 1));
         JTextField name = new JTextField(a.getAccountName());
         JTextField street = new JTextField(a.getStreetname());
         JTextField houseNumber = new JTextField(a.getHouseNumber());
@@ -51,10 +44,15 @@ public class AccountPanelEdit implements ActionListener {
         JTextField residence = new JTextField(a.getResidence());
 
         // Add Input fields to Panel
+        inputFields.add(new JLabel("Naam"));
         inputFields.add(name);
+        inputFields.add(new JLabel("Straat"));
         inputFields.add(street);
+        inputFields.add(new JLabel("Huisnummer"));
         inputFields.add(houseNumber);
+        inputFields.add(new JLabel("Postcode"));
         inputFields.add(zipcode);
+        inputFields.add(new JLabel("Woonplaats"));
         inputFields.add(residence);
         container.add(inputFields, BorderLayout.CENTER);
 
@@ -75,7 +73,7 @@ public class AccountPanelEdit implements ActionListener {
                     UserInterface.getAccountpanel().updateAccountTable();
 
                     // Close dialog
-                    frame.setVisible(false);
+                    frame.dispose();
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
@@ -88,7 +86,7 @@ public class AccountPanelEdit implements ActionListener {
         cancelButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
+                frame.dispose();
             }
         });
         container.add(bottomButtons, BorderLayout.SOUTH);
