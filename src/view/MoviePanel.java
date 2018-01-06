@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 
-public class MoviePanel extends JPanel {
+class MoviePanel extends JPanel {
 
     private String[] columnNames = {"ID", "Titel", "Duratie", "Genre", "Taal", "Leeftijd"};
     private DefaultTableModel tm = new DefaultTableModel(columnNames, 0);

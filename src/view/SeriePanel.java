@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SeriePanel extends JPanel {
+class SeriePanel extends JPanel {
 
     private String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
     private DefaultTableModel tmSerie = new DefaultTableModel(columnNamesSerie, 0);
@@ -25,7 +25,7 @@ public class SeriePanel extends JPanel {
             comboBoxSerie.addItem(s);
         }
 
-        // Fill Table with Epsiodes
+        // Fill Table with Episodes
         fillTable();
 
         // Refill table on item changed

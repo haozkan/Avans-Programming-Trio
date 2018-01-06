@@ -14,7 +14,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-public class ProfilePanel extends JPanel {
+class ProfilePanel extends JPanel {
 
     private String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
     private DefaultTableModel tmProfile = new DefaultTableModel(columnNamesProfile, 0);

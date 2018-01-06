@@ -7,7 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
-public class AccountPanel extends JPanel {
+class AccountPanel extends JPanel {
 
     private String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
     private DefaultTableModel tmAccount = new DefaultTableModel(columnNamesAccount, 0);
