@@ -2,6 +2,8 @@ package view;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 import static javax.swing.SwingConstants.LEFT;
 
@@ -52,9 +54,10 @@ public class UserInterface implements Runnable {
     }
 
     private JPanel bottomBar() {
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Netflix Statistix"));
-        panel.add(new JLabel("Informatica klas1E - Djim Oomes, Marco van Poortvliet"));
+        JPanel panel = new JPanel(new BorderLayout());
+        panel.setBorder(new EmptyBorder(3, 10, 3, 10));
+        panel.add(new JLabel("Netflix Statistix", JLabel.LEFT), BorderLayout.WEST);
+        panel.add(new JLabel("Informatica klas1E - Djim Oomes, Marco van Poortvliet", JLabel.RIGHT), BorderLayout.EAST);
         return panel;
     }
 
