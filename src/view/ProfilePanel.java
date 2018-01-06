@@ -11,6 +11,8 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 public class ProfilePanel extends JPanel {
 
@@ -29,24 +31,14 @@ public class ProfilePanel extends JPanel {
         // Set ComboBox selected item
         comboBoxAccounts.setSelectedIndex(0);
 
-        comboBoxAccounts.addActionListener(e -> {
+        // Fill table with first value
+        fillTable();
 
-            // Clear Table
-            tmProfile.setRowCount(0);
-
-            // Get Selected Account Object from ComboBox
-            Account selectedAccount = (Account) comboBoxAccounts.getSelectedItem();
-
-            // Fill table with Profiles by Account
-            for (Profile p : ProfileDAO.getInstance().getProfilesByAccount(selectedAccount)) {
-                Object[] o = new Object[4];
-                o[0] = p.getProfileID();
-                o[1] = p.getAccountID();
-                o[2] = p.getProfileName();
-                o[3] = p.getDateOfBirth();
-                tmProfile.addRow(o);
-            }
+        // Refill table on item changed
+        comboBoxAccounts.addItemListener(e -> {
+            fillTable();
         });
+
 
         this.setLayout(new BorderLayout());
 
@@ -143,6 +135,25 @@ public class ProfilePanel extends JPanel {
         // Refill ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             comboBoxAccounts.addItem(a);
+        }
+    }
+
+    private void fillTable() {
+
+        // Clear Table
+        tmProfile.setRowCount(0);
+
+        // Get Selected Account Object from ComboBox
+        Account selectedAccount = (Account) comboBoxAccounts.getSelectedItem();
+
+        // Fill table with Profiles by Account
+        for (Profile p : ProfileDAO.getInstance().getProfilesByAccount(selectedAccount)) {
+            Object[] o = new Object[4];
+            o[0] = p.getProfileID();
+            o[1] = p.getAccountID();
+            o[2] = p.getProfileName();
+            o[3] = p.getDateOfBirth();
+            tmProfile.addRow(o);
         }
     }
 }
