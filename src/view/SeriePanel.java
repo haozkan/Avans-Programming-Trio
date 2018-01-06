@@ -20,27 +20,17 @@ public class SeriePanel extends JPanel {
 
     SeriePanel() {
 
+        // Fill ComboBox with Series
         for (Serie s : SerieDAO.getInstance().getAllSeries()) {
             comboBoxSerie.addItem(s);
         }
 
+        // Fill Table with Epsiodes
+        fillTable();
+
+        // Refill table on item changed
         comboBoxSerie.addActionListener(event -> {
-
-            // Clear Table
-            tmSerie.setRowCount(0);
-
-            // Get Selected Serie Object from ComboBox
-            Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
-
-            // Get parameters and add as row
-            for (Episode e : SerieDAO.getInstance().getAllEpisodesBySerie(selectedSerie)) {
-                Object[] o = new Object[4];
-                o[0] = e.getId();
-                o[1] = e.getTitle();
-                o[2] = e.getDuration();
-                o[3] = e.getSeason();
-                tmSerie.addRow(o);
-            }
+            fillTable();
         });
 
         this.setLayout(new BorderLayout());
@@ -58,6 +48,24 @@ public class SeriePanel extends JPanel {
 
         this.add(panelFourCombo, BorderLayout.NORTH);
         this.add(panelFourTable, BorderLayout.CENTER);
+    }
+
+    private void fillTable() {
+        // Clear Table
+        tmSerie.setRowCount(0);
+
+        // Get Selected Serie Object from ComboBox
+        Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
+
+        // Get parameters and add as row
+        for (Episode e : SerieDAO.getInstance().getAllEpisodesBySerie(selectedSerie)) {
+            Object[] o = new Object[4];
+            o[0] = e.getId();
+            o[1] = e.getTitle();
+            o[2] = e.getDuration();
+            o[3] = e.getSeason();
+            tmSerie.addRow(o);
+        }
     }
 
     public void updateSerieTable() {
