@@ -2,29 +2,51 @@ package view;
 
 import datalayer.AccountDAO;
 import datalayer.ProfileDAO;
+import model.Account;
 import model.Profile;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ProfilePanel extends JPanel {
 
     private String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
     private DefaultTableModel tmProfile = new DefaultTableModel(columnNamesProfile, 0);
     private JTable tableProfile = new JTable(tmProfile);
+    private JComboBox<Account> comboBoxAccounts = new JComboBox<>();
 
     ProfilePanel() {
 
-        for (Profile p : ProfileDAO.getInstance().getAllProfiles()) {
-            Object[] o = new Object[4];
-            o[0] = p.getProfileID();
-            o[1] = p.getAccountID();
-            o[2] = p.getProfileName();
-            o[3] = p.getDateOfBirth();
-            tmProfile.addRow(o);
+        // Get all Accounts and put them in ComboBox
+        for (Account a : AccountDAO.getInstance().getAllAccounts()) {
+            comboBoxAccounts.addItem(a);
         }
+
+        // Set ComboBox selected item
+        comboBoxAccounts.setSelectedIndex(0);
+
+        comboBoxAccounts.addActionListener(e -> {
+
+            // Clear Table
+            tmProfile.setRowCount(0);
+
+            // Get Selected Account Object from ComboBox
+            Account selectedAccount = (Account) comboBoxAccounts.getSelectedItem();
+
+            // Fill table with Profiles by Account
+            for (Profile p : ProfileDAO.getInstance().getProfilesByAccount(selectedAccount)) {
+                Object[] o = new Object[4];
+                o[0] = p.getProfileID();
+                o[1] = p.getAccountID();
+                o[2] = p.getProfileName();
+                o[3] = p.getDateOfBirth();
+                tmProfile.addRow(o);
+            }
+        });
 
         this.setLayout(new BorderLayout());
 
@@ -36,10 +58,11 @@ public class ProfilePanel extends JPanel {
         panelTable.add(scrollPane, BorderLayout.CENTER);
 
         JPanel panelButtons = new JPanel();
-        panelButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        panelButtons.setLayout(new GridLayout());
         JButton addButton = new JButton("Add");
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
+        panelButtons.add(comboBoxAccounts);
         panelButtons.add(addButton);
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
@@ -62,7 +85,7 @@ public class ProfilePanel extends JPanel {
             editButton.setEnabled(!lsm.isSelectionEmpty());
         });
 
-
+        // Add Panels
         this.add(panelButtons, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
 
@@ -97,8 +120,11 @@ public class ProfilePanel extends JPanel {
     }
 
     public void updateProfileTable() {
+
+        // Clear table
         tmProfile.setRowCount(0);
 
+        // Refill table from DB
         for (Profile p : ProfileDAO.getInstance().getAllProfiles()) {
             Object[] o = new Object[4];
             o[0] = p.getProfileID();
@@ -106,6 +132,17 @@ public class ProfilePanel extends JPanel {
             o[2] = p.getProfileName();
             o[3] = p.getDateOfBirth();
             tmProfile.addRow(o);
+        }
+    }
+
+    public void updateProfileCombox() {
+
+        // Clear ComboBox
+        comboBoxAccounts.removeAllItems();
+
+        // Refill ComboBox
+        for (Account a : AccountDAO.getInstance().getAllAccounts()) {
+            comboBoxAccounts.addItem(a);
         }
     }
 }

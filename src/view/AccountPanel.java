@@ -77,12 +77,15 @@ public class AccountPanel extends JPanel {
 
             // Delete Account if user selected YES
             if (dialogResult == JOptionPane.YES_OPTION && selectedID > -1) {
-                AccountDAO.getInstance().deleteAccountByID(selectedID);
-            }
 
-            // Refresh Account and Profile Tables
-            updateAccountTable();
-            UserInterface.getProfilePanel().updateProfileTable();
+                // Delete Account
+                AccountDAO.getInstance().deleteAccountByID(selectedID);
+
+                // Refresh Account and Profile tables and ComboBox
+                updateAccountTable();
+                UserInterface.getProfilePanel().updateProfileTable();
+                UserInterface.getProfilePanel().updateProfileCombox();
+            }
 
         });
 

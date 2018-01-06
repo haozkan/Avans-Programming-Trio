@@ -1,6 +1,7 @@
 package datalayer;
 
 import datalayerinterface.IProfile;
+import model.Account;
 import model.Profile;
 
 import java.sql.Connection;
@@ -29,21 +30,21 @@ public class ProfileDAO implements IProfile {
     public List<Profile> getAllProfiles() {
         ArrayList<Profile> profiles = new ArrayList<>();
         Connection conn = null;
-        try{
+        try {
             conn = MysqlDAO.getInstance().connect();
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM profile");
             ResultSet resultSet = statement.executeQuery();
 
-                while(resultSet.next()){
-                    int profileID = resultSet.getInt("profileID");
-                    int accountID = resultSet.getInt("accountID");
-                    String profileName = resultSet.getString("profileName");
-                    Date dateofBirth = resultSet.getDate("dateofBirth");
+            while (resultSet.next()) {
+                int profileID = resultSet.getInt("profileID");
+                int accountID = resultSet.getInt("accountID");
+                String profileName = resultSet.getString("profileName");
+                Date dateofBirth = resultSet.getDate("dateofBirth");
 
-                    Profile p = new Profile(profileName,dateofBirth, profileID, accountID);
-                    profiles.add(p);
-                }
-        } catch (SQLException e){
+                Profile p = new Profile(profileName, dateofBirth, profileID, accountID);
+                profiles.add(p);
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             MysqlDAO.getInstance().closeConnection(conn);
@@ -55,21 +56,21 @@ public class ProfileDAO implements IProfile {
     public Profile getProfileByID(int profileID) {
         Connection conn = null;
         Profile p = null;
-        try{
+        try {
             conn = MysqlDAO.getInstance().connect();
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM profile WHERE profileID = ?");
             statement.setInt(1, profileID);
             ResultSet resultSet = statement.executeQuery();
 
-                while(resultSet.next()){
-                    int id = resultSet.getInt("profileID");
-                    String profileName = resultSet.getString("profileName");
-                    Date dateofBirth = resultSet.getDate("dateofBirth");
-                    int accountID = resultSet.getInt("accountID");
-                    p = new Profile(profileName, dateofBirth, profileID, accountID);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("profileID");
+                String profileName = resultSet.getString("profileName");
+                Date dateofBirth = resultSet.getDate("dateofBirth");
+                int accountID = resultSet.getInt("accountID");
+                p = new Profile(profileName, dateofBirth, profileID, accountID);
 
-                }
-        } catch(SQLException e) {
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             MysqlDAO.getInstance().closeConnection(conn);
@@ -80,7 +81,7 @@ public class ProfileDAO implements IProfile {
     @Override
     public void createProfile(Profile p) {
         Connection conn = null;
-        try{
+        try {
             conn = MysqlDAO.getInstance().connect();
             PreparedStatement statement = conn.prepareStatement("" + "INSERT INTO `profile` " +
                     "(`profileID`, `accountID`, `profileName`, `dateofBirth`) VALUES (?,?,?,?)");
@@ -89,7 +90,7 @@ public class ProfileDAO implements IProfile {
             statement.setString(3, p.getProfileName());
             statement.setDate(4, p.getDateOfBirth());
             statement.executeUpdate();
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             MysqlDAO.getInstance().closeConnection(conn);
@@ -132,37 +133,29 @@ public class ProfileDAO implements IProfile {
     }
 
     @Override
-    public void addProfile(Profile p) {
+    public List<Profile> getProfilesByAccount(Account a) {
         Connection conn = null;
-        try{
+        ArrayList<Profile> profilesAccount = new ArrayList<>();
+        try {
             conn = MysqlDAO.getInstance().connect();
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO `profile` (`profileName`, `dateofBirth`)" +
-                    "VALUES (?,?) ");
-            statement.setString(1,p.getProfileName());
-            statement.setDate(2,p.getDateOfBirth());
-            statement.executeUpdate();
-        } catch(SQLException ex){
-            ex.printStackTrace();
-        } finally{
-            MysqlDAO.getInstance().closeConnection(conn);
-        }
-    }
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM profile WHERE accountID = ?");
+            statement.setInt(1, a.getAccountNumber());
+            ResultSet resultSet = statement.executeQuery();
 
-    @Override
-    public void edditProfile(Profile p) {
-        Connection conn = null;
-        try{
-            conn = MysqlDAO.getInstance().connect();
-            PreparedStatement statement = conn.prepareStatement("UPDATE `profile` SET `profileName` =? ," +
-                    "`dateofBirth` =? WHERE profileID = ?");
-            statement.setString(1,p.getProfileName());
-            statement.setDate(2,p.getDateOfBirth());
-            statement.setInt(3,p.getProfileID());
-            statement.executeUpdate();
-        } catch(SQLException ex){
-            ex.printStackTrace();
-        }finally{
+            while (resultSet.next()) {
+                int profileID = resultSet.getInt("profileID");
+                int accountID = resultSet.getInt("accountID");
+                String profileName = resultSet.getString("profileName");
+                Date dateofBirth = resultSet.getDate("dateofBirth");
+
+                Profile p = new Profile(profileName, dateofBirth, profileID, accountID);
+                profilesAccount.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
             MysqlDAO.getInstance().closeConnection(conn);
         }
+        return profilesAccount;
     }
 }

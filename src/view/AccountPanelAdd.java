@@ -60,6 +60,7 @@ public class AccountPanelAdd extends JFrame implements ActionListener {
                 Account a = new Account(name.getText(), street.getText(), houseNumber.getText(), zipcode.getText(), residence.getText());
                 AccountDAO.getInstance().createAccount(a);
                 UserInterface.getAccountpanel().updateAccountTable();
+                UserInterface.getProfilePanel().updateProfileCombox();
                 frame.dispose();
             }
         });

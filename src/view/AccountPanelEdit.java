@@ -72,6 +72,9 @@ public class AccountPanelEdit extends JFrame implements ActionListener {
                     // Update Account Table
                     UserInterface.getAccountpanel().updateAccountTable();
 
+                    // Update Account Combobox
+                    UserInterface.getProfilePanel().updateProfileCombox();
+
                     // Close dialog
                     frame.dispose();
                 } catch (Exception ex) {

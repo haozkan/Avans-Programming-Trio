@@ -42,6 +42,10 @@ public class Account {
                 '}';
     }
 
+    public String toCombo() {
+        return this.getAccountName();
+    }
+
     public int getAccountNumber() {
         return accountNumber;
     }
