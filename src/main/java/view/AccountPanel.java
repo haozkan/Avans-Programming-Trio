@@ -1,6 +1,8 @@
 package view;
 
 import datalayer.AccountDAO;
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 import model.Account;
 
 import javax.swing.*;
@@ -38,9 +40,25 @@ class AccountPanel extends JPanel {
         // Button Panel
         JPanel panelButtons = new JPanel();
         panelButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        JButton addButton = new JButton("Add");
-        JButton editButton = new JButton("Edit");
-        JButton deleteButton = new JButton("Delete");
+
+        IconFontSwing.register(FontAwesome.getIconFont());
+
+        // Build Icons
+        Icon addIcon = IconFontSwing.buildIcon(FontAwesome.PLUS, 15);
+        Icon editIcon = IconFontSwing.buildIcon(FontAwesome.PENCIL, 15);
+        Icon deleteIcon = IconFontSwing.buildIcon(FontAwesome.TRASH, 15);
+
+        // Create Buttons
+        JButton addButton = new JButton();
+        JButton editButton = new JButton();
+        JButton deleteButton = new JButton();
+
+        // Set Button Icons
+        addButton.setIcon(addIcon);
+        editButton.setIcon(editIcon);
+        deleteButton.setIcon(deleteIcon);
+
+        // Add Buttons to panel
         panelButtons.add(addButton);
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);

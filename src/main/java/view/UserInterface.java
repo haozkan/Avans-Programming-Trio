@@ -20,6 +20,7 @@ public class UserInterface implements Runnable {
         frame = new JFrame("Netflix statistix");
         createComponents(frame.getContentPane());
         frame.setPreferredSize(new Dimension(800, 600));
+        frame.setMinimumSize(new Dimension(600, 300));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         try {
