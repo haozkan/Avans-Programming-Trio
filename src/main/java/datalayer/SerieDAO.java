@@ -113,4 +113,28 @@ public class SerieDAO implements ISerie {
         }
         return episodes;
     }
+
+    @Override
+    public int getAverageWatchTime(Serie s) {
+        Connection conn = null;
+        int avgWatchTime = 0;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT AVG(percentage) AS avgPercentage FROM watched\n" +
+                    "INNER JOIN episode ON episode.videoID = watched.videoID\n" +
+                    "WHERE SerieID = ?");
+            statement.setInt(1, s.getID());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                avgWatchTime = resultSet.getInt("avgPercentage");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+        return avgWatchTime;
+    }
 }

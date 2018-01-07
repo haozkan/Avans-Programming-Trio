@@ -1,6 +1,7 @@
 package model;
 
 import datalayer.MysqlDAO;
+import datalayer.SerieDAO;
 import view.UserInterface;
 
 import javax.swing.*;
