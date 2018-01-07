@@ -6,7 +6,6 @@ import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import model.Account;
 import model.Profile;
-import net.miginfocom.layout.Grid;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -138,6 +137,28 @@ class ProfilePanel extends JPanel {
 
             // Refresh Account and Profile Tables
             updateProfileTable();
+        });
+
+        // Edit Button Action
+        editButton.addActionListener(e -> {
+
+            // Reset values
+            int selectedRow = 0;
+            int selectedID = -1;
+
+            // Get selected row and ID
+            selectedRow = tableProfile.getSelectedRow();
+            selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+            // Open Edit Frame
+            ProfilePanelEdit editPanel = new ProfilePanelEdit(selectedID);
+        });
+
+
+        // Disable delete button if selection is empty
+        listSelectionModel.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            deleteButton.setEnabled(!lsm.isSelectionEmpty());
         });
     }
 
