@@ -2,8 +2,11 @@ package view;
 
 import datalayer.AccountDAO;
 import datalayer.ProfileDAO;
+import jiconfont.icons.FontAwesome;
+import jiconfont.swing.IconFontSwing;
 import model.Account;
 import model.Profile;
+import net.miginfocom.layout.Grid;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.concurrent.Flow;
 
 class ProfilePanel extends JPanel {
 
@@ -42,6 +46,9 @@ class ProfilePanel extends JPanel {
 
         this.setLayout(new BorderLayout());
 
+        JPanel panelHeader = new JPanel();
+        panelHeader.setLayout(new GridLayout(0, 2));
+
         JPanel panelTable = new JPanel();
         panelTable.setLayout(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(tableProfile);
@@ -49,15 +56,38 @@ class ProfilePanel extends JPanel {
         tableProfile.setDefaultEditor(Object.class, null);
         panelTable.add(scrollPane, BorderLayout.CENTER);
 
+        JPanel panelComboBox = new JPanel();
+        panelComboBox.setLayout(new BorderLayout());
+        panelComboBox.add(comboBoxAccounts, BorderLayout.CENTER);
+
         JPanel panelButtons = new JPanel();
-        panelButtons.setLayout(new GridLayout());
-        JButton addButton = new JButton("Add");
-        JButton editButton = new JButton("Edit");
-        JButton deleteButton = new JButton("Delete");
-        panelButtons.add(comboBoxAccounts);
+        panelButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+        IconFontSwing.register(FontAwesome.getIconFont());
+
+        // Build Icons
+        Icon addIcon = IconFontSwing.buildIcon(FontAwesome.PLUS, 15);
+        Icon editIcon = IconFontSwing.buildIcon(FontAwesome.PENCIL, 15);
+        Icon deleteIcon = IconFontSwing.buildIcon(FontAwesome.TRASH, 15);
+
+        // Create Buttons
+        JButton addButton = new JButton();
+        JButton editButton = new JButton();
+        JButton deleteButton = new JButton();
+
+        // Set Button Icons
+        addButton.setIcon(addIcon);
+        editButton.setIcon(editIcon);
+        deleteButton.setIcon(deleteIcon);
+
+        // Add Buttons to panel
         panelButtons.add(addButton);
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
+
+        // Add Panels to Header Panel
+        panelHeader.add(panelComboBox);
+        panelHeader.add(panelButtons);
 
         // Edit and Delete buttons are disabled on init
         editButton.setEnabled(false);
@@ -78,7 +108,7 @@ class ProfilePanel extends JPanel {
         });
 
         // Add Panels
-        this.add(panelButtons, BorderLayout.NORTH);
+        this.add(panelHeader, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
 
         deleteButton.addActionListener(e -> {
