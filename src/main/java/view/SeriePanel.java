@@ -40,7 +40,7 @@ class SeriePanel extends JPanel {
             Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
             averageWatchTime.setText("Gemiddelde kijktijd Serie:" + SerieDAO.getInstance().getAverageWatchTime(selectedSerie) + "%");
 
-            tableSeries.setRowSelectionInterval(0,0);
+            tableSeries.setRowSelectionInterval(0, 0);
 
         });
 
