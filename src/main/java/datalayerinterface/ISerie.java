@@ -11,4 +11,6 @@ public interface ISerie {
     public Serie getSerieByID(int s);
 
     public List getAllEpisodesBySerie(Serie s);
+
+    public int getAverageWatchTime(Serie s);
 }
