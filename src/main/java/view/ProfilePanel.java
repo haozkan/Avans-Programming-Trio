@@ -1,11 +1,12 @@
 package view;
 
-import datalayer.AccountDAO;
-import datalayer.ProfileDAO;
+import datalayer.*;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import model.Account;
+import model.Movie;
 import model.Profile;
+import model.Serie;
 import net.miginfocom.layout.Grid;
 
 import javax.swing.*;
@@ -21,8 +22,14 @@ import java.util.concurrent.Flow;
 class ProfilePanel extends JPanel {
 
     private String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
+    private String[] columnNamesMovies = {"Naam", "Percentage"};
+    private String[] columnNamesSeries = {"Naam", "Percentage"};
     private DefaultTableModel tmProfile = new DefaultTableModel(columnNamesProfile, 0);
+    private DefaultTableModel tmMovies = new DefaultTableModel(columnNamesMovies, 0);
+    private DefaultTableModel tmSeries = new DefaultTableModel(columnNamesSeries, 0);
     private JTable tableProfile = new JTable(tmProfile);
+    private JTable watchedMoviesTable = new JTable(tmMovies);
+    private JTable watchedSeriesTable = new JTable(tmSeries);
     private JComboBox<Account> comboBoxAccounts = new JComboBox<>();
 
     ProfilePanel() {
@@ -42,7 +49,6 @@ class ProfilePanel extends JPanel {
         comboBoxAccounts.addItemListener(e -> {
             fillTable();
         });
-
 
         this.setLayout(new BorderLayout());
 
@@ -93,6 +99,34 @@ class ProfilePanel extends JPanel {
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
 
+        // Statistics Panel
+        JPanel panelStats = new JPanel();
+        panelStats.setLayout(new GridLayout(1, 2));
+
+        JPanel watchedMovies = new JPanel();
+        JPanel watchedSeries = new JPanel();
+        watchedMovies.setLayout(new BorderLayout());
+        watchedSeries.setLayout(new BorderLayout());
+
+        watchedMovies.add(new JLabel("Bekeken Films"), BorderLayout.NORTH);
+        watchedMovies.add(watchedMoviesTable, BorderLayout.CENTER);
+
+        watchedSeries.add(new JLabel("Bekeken Series"), BorderLayout.NORTH);
+        watchedSeries.add(watchedSeriesTable, BorderLayout.CENTER);
+
+        tableProfile.getSelectionModel().addListSelectionListener(e -> {
+            if (!tableProfile.getSelectionModel().isSelectionEmpty()) {
+                updateMovieTable();
+//                updateSeriesTable();
+            } else {
+                tmMovies.setRowCount(0);
+//                tmSeries.setRowCount(0);
+            }
+        });
+
+        panelStats.add(watchedMovies);
+        panelStats.add(watchedSeries);
+
         ListSelectionModel listSelectionModel = tableProfile.getSelectionModel();
 
         // Disable delete button if selection is empty
@@ -110,6 +144,7 @@ class ProfilePanel extends JPanel {
         // Add Panels
         this.add(panelHeader, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
+        this.add(panelStats, BorderLayout.EAST);
 
         deleteButton.addActionListener(e -> {
 
@@ -154,6 +189,39 @@ class ProfilePanel extends JPanel {
             o[2] = p.getProfileName();
             o[3] = p.getDateOfBirth();
             tmProfile.addRow(o);
+        }
+    }
+
+    public void updateMovieTable() {
+        // Clear table
+        tmMovies.setRowCount(0);
+
+        // Get selected row and ID
+        int selectedRow = tableProfile.getSelectedRow();
+        int selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+        // Refill table from DB
+        for (Movie m : MovieDAO.getInstance().getWatchedMoviesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
+            Object[] o = new Object[1];
+            o[0] = m.getTitle();
+            tmMovies.addRow(o);
+        }
+    }
+
+    public void updateSeriesTable() {
+
+        // Clear table
+        tmMovies.setRowCount(0);
+
+        // Get selected row and ID
+        int selectedRow = tableProfile.getSelectedRow();
+        int selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+        // Refill table from DB
+        for (Serie s : SerieDAO.getInstance().getWatchedSeriesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
+            Object[] o = new Object[1];
+            o[0] = s.getName();
+            tmMovies.addRow(o);
         }
     }
 

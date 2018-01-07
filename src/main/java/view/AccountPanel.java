@@ -12,14 +12,9 @@ import java.awt.*;
 class AccountPanel extends JPanel {
 
     private String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
-    private String[] columnNamesMovies = {"Naam"};
-    private String[] columnNamesSeries = {"Naam"};
     private DefaultTableModel tmAccount = new DefaultTableModel(columnNamesAccount, 0);
-    private DefaultTableModel tmMovies = new DefaultTableModel(columnNamesMovies, 0);
-    private DefaultTableModel tmSeries = new DefaultTableModel(columnNamesSeries, 0);
     private JTable tableAccount = new JTable(tmAccount);
-    private JTable watchedMoviesTable = new JTable(tmMovies);
-    private JTable watchedSeriesTable = new JTable(tmSeries);
+
 
     AccountPanel() {
 
@@ -72,24 +67,6 @@ class AccountPanel extends JPanel {
         // Edit and Delete buttons are disabled on init
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
-
-        // Statistics Panel
-        JPanel panelStats = new JPanel();
-        panelStats.setLayout(new GridLayout(1,2));
-
-        JPanel watchedMovies = new JPanel();
-        JPanel watchedSeries = new JPanel();
-        watchedMovies.setLayout(new BorderLayout());
-        watchedSeries.setLayout(new BorderLayout());
-
-        watchedMovies.add(new JLabel("Bekeken Films"), BorderLayout.NORTH);
-        watchedMovies.add(watchedMoviesTable, BorderLayout.CENTER);
-
-        watchedSeries.add(new JLabel("Bekeken Series"), BorderLayout.NORTH);
-        watchedSeries.add(watchedSeriesTable, BorderLayout.CENTER);
-
-        panelStats.add(watchedMovies);
-        panelStats.add(watchedSeries);
 
         // Add Button Action
         addButton.addActionListener(e -> {
@@ -164,7 +141,6 @@ class AccountPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(panelButtons, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
-        this.add(panelStats, BorderLayout.SOUTH);
     }
 
     public void updateAccountTable() {
