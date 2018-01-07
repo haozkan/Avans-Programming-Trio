@@ -12,4 +12,6 @@ public interface IEpisode {
     public Episode getEpisodeByID(int id);
 
     public List getWatchedEpisodesByProfile(Profile p);
+
+    public int getAverageWatchtime(Episode e);
 }
