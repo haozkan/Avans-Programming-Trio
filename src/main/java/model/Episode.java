@@ -15,17 +15,14 @@ public class Episode extends Video {
     }
 
     @Override
+    public String toString() {
+        return "Episode{" +
+                "season=" + season +
+                "} " + super.toString();
+    }
+
+    @Override
     double getWatchedPercentage() {
-        return 0;
-    }
-
-    @Override
-    double getWatchedPercentageByMovie(Movie m) {
-        return 0;
-    }
-
-    @Override
-    double getWatchedPercentageByEpisode(Episode e) {
         return 0;
     }
 

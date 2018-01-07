@@ -5,7 +5,7 @@ public class Account {
     private int accountNumber;
     private String accountName;
     private String streetname;
-    private int houseNumber;
+    private String houseNumber;
     private String zipcode;
     private String residence;
 
@@ -13,13 +13,37 @@ public class Account {
 
     }
 
-    public Account(int accountNumber, String accountName, String streetname, int houseNumber, String zipcode, String residence) {
+    public Account(String accountName, String streetname, String houseNumber, String zipcode, String residence) {
+        this.accountName = accountName;
+        this.streetname = streetname;
+        this.houseNumber = houseNumber;
+        this.zipcode = zipcode;
+        this.residence = residence;
+    }
+
+    public Account(int accountNumber, String accountName, String streetname, String houseNumber, String zipcode, String residence) {
         this.accountNumber = accountNumber;
         this.accountName = accountName;
         this.streetname = streetname;
         this.houseNumber = houseNumber;
         this.zipcode = zipcode;
         this.residence = residence;
+    }
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "accountNumber=" + accountNumber +
+                ", accountName='" + accountName + '\'' +
+                ", streetname='" + streetname + '\'' +
+                ", houseNumber='" + houseNumber + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                ", residence='" + residence + '\'' +
+                '}';
+    }
+
+    public String toCombo() {
+        return this.getAccountName();
     }
 
     public int getAccountNumber() {
@@ -46,11 +70,11 @@ public class Account {
         this.streetname = streetname;
     }
 
-    public int getHouseNumber() {
+    public String getHouseNumber() {
         return houseNumber;
     }
 
-    public void setHouseNumber(int houseNumber) {
+    public void setHouseNumber(String houseNumber) {
         this.houseNumber = houseNumber;
     }
 

@@ -22,6 +22,14 @@ public class Serie {
         this.suggestion = suggestion;
     }
 
+    public int getID(){
+        return id;
+    }
+
+    public void setID(int id){
+        this.id=id;
+    }
+
     public String getName() {
         return name;
     }
@@ -60,5 +68,17 @@ public class Serie {
 
     public void setSuggestion(String suggestion) {
         this.suggestion = suggestion;
+    }
+
+    @Override
+    public String toString() {
+        return "Serie{" +
+                "serieID=" + id +
+                ", serieName='" + name + '\'' +
+                ", ageRating='" + ageRating + '\'' +
+                ", language='" + language + '\'' +
+                ", genre='" + genre + '\'' +
+                ", suggestion='" + suggestion + '\'' +
+                '}';
     }
 }

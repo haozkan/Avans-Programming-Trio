@@ -1,5 +1,6 @@
 package datalayerinterface;
 
+import model.Account;
 import model.Profile;
 
 import java.util.List;
@@ -15,5 +16,7 @@ public interface IProfile {
     public void updateProfile(Profile p);
 
     public void deleteProfile(Profile p);
+
+    public List getProfilesByAccount(Account a);
 
 }

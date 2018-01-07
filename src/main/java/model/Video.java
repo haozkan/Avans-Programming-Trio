@@ -22,9 +22,18 @@ public abstract class Video {
 
     abstract double getWatchedPercentage();
 
-    abstract double getWatchedPercentageByMovie(Movie m);
+    // Probably not needed
+    //  abstract double getWatchedPercentageByMovie(Movie m);
+    //  abstract double getWatchedPercentageByEpisode(Episode e);
 
-    abstract double getWatchedPercentageByEpisode(Episode e);
+    @Override
+    public String toString() {
+        return "Video{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", duration='" + duration + '\'' +
+                '}';
+    }
 
     public int getId() {
         return id;
@@ -49,5 +58,5 @@ public abstract class Video {
     public void setDuration(String duration) {
         this.duration = duration;
     }
-    
+
 }

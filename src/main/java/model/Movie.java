@@ -10,7 +10,7 @@ public class Movie extends Video {
 
     }
 
-    public Movie(int id, String title, String duration, double percentage, String genre, String language, int ageRating) {
+    public Movie(int id, String title, String duration, String genre, String language, int ageRating) {
         super(id, title, duration);
         this.genre = genre;
         this.language = language;
@@ -25,17 +25,16 @@ public class Movie extends Video {
     }
 
     @Override
+    public String toString() {
+        return "Movie{" +
+                "genre='" + genre + '\'' +
+                ", language='" + language + '\'' +
+                ", ageRating=" + ageRating +
+                "} " + super.toString();
+    }
+
+    @Override
     double getWatchedPercentage() {
-        return 0;
-    }
-
-    @Override
-    double getWatchedPercentageByMovie(Movie m) {
-        return 0;
-    }
-
-    @Override
-    double getWatchedPercentageByEpisode(Episode e) {
         return 0;
     }
 
