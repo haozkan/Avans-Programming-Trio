@@ -87,7 +87,34 @@ public class MovieDAO implements IMovie {
     }
 
     @Override
-    public List getWatchedMoviesByProfile(Profile p) {
-        return null;
+    public List<Movie> getWatchedMoviesByProfile(Profile p) {
+        ArrayList<Movie> movies = new ArrayList<>();
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM movie\n" +
+                    "INNER JOIN video ON movie.videoID = video.videoID\n" +
+                    "INNER JOIN watched ON movie.videoID = video.videoID\n" +
+                    "WHERE watched.profileID = ?");
+            statement.setInt(1, p.getProfileID());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("movieID");
+                String title = resultSet.getString("videoTitle");
+                String duration = resultSet.getString("durage");
+                String genre = resultSet.getString("genre");
+                String language = resultSet.getString("language");
+                int ageRating = resultSet.getInt("ageClassification");
+
+                Movie m = new Movie(id, title, duration, genre, language, ageRating);
+                movies.add(m);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+        return movies;
     }
 }
