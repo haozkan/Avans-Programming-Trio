@@ -7,7 +7,6 @@ import model.Account;
 import model.Movie;
 import model.Profile;
 import model.Serie;
-import net.miginfocom.layout.Grid;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -178,6 +177,11 @@ class ProfilePanel extends JPanel {
 
             // Refresh Account and Profile Tables
             updateProfileTable();
+        });
+
+        // Add Button Action
+        addButton.addActionListener(e -> {
+            new ProfilePanelAdd();
         });
 
         // Edit Button Action

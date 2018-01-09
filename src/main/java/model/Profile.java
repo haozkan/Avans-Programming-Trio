@@ -13,6 +13,12 @@ public class Profile {
 
     }
 
+    /*public Profile(String profileName, Date dateOfBirth, int accountID){
+        this.accountID = accountID;
+        this.profileName = profileName;
+        this.dateOfBirth = dateOfBirth;
+    } */
+
     public Profile(String profileName, Date dateOfBirth) {
         this.profileName = profileName;
         this.dateOfBirth = dateOfBirth;
@@ -29,6 +35,12 @@ public class Profile {
         this.dateOfBirth = dateOfBirth;
         this.profileID = profileID;
         this.accountID = accountID;
+    }
+
+    public Profile(String profileName, Date dateOfBirth, int randomInt, int anotherRandom, int accountID){
+        this.profileName=profileName;
+        this.dateOfBirth = dateOfBirth;
+        this.accountID=accountID;
     }
 
 
