@@ -19,12 +19,17 @@ import java.util.concurrent.Flow;
 
 class ProfilePanel extends JPanel {
 
-    private String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
-    private DefaultTableModel tmProfile = new DefaultTableModel(columnNamesProfile, 0);
-    private JTable tableProfile = new JTable(tmProfile);
-    private JComboBox<Account> comboBoxAccounts = new JComboBox<>();
+    private static DefaultTableModel tmProfile;
+    private static JTable tableProfile;
+    private static JComboBox<Account> comboBoxAccounts;
 
     ProfilePanel() {
+
+        // Initialize Components
+        String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
+        tmProfile = new DefaultTableModel(columnNamesProfile, 0);
+        tableProfile = new JTable(tmProfile);
+        comboBoxAccounts = new JComboBox<>();
 
         // Get all Accounts and put them in ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
@@ -162,7 +167,7 @@ class ProfilePanel extends JPanel {
         });
     }
 
-    public void updateProfileTable() {
+    public static void updateProfileTable() {
 
         // Clear table
         tmProfile.setRowCount(0);
@@ -178,7 +183,7 @@ class ProfilePanel extends JPanel {
         }
     }
 
-    public void updateProfileCombox() {
+    public static void updateProfileCombox() {
 
 //        // Clear ComboBox
 //        comboBoxAccounts.removeAllItems();
@@ -211,4 +216,6 @@ class ProfilePanel extends JPanel {
             tmProfile.addRow(o);
         }
     }
+
+
 }

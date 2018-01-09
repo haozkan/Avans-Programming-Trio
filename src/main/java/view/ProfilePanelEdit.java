@@ -66,8 +66,7 @@ public class ProfilePanelEdit extends JFrame implements ActionListener {
                     ProfileDAO.getInstance().updateProfile(p);
 
                     // Update Profile Table
-                    UserInterface.getProfilePanel().updateProfileTable();
-
+                    ProfilePanel.updateProfileTable();
 
                     // Update Profile Combobox
                     //UserInterface.getProfilePanel().updateProfileCombox();
