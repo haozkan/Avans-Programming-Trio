@@ -14,6 +14,7 @@ class AccountPanel extends JPanel {
     private static DefaultTableModel tmAccount;
     private static JTable tableAccount;
 
+
     AccountPanel() {
 
         // Initialize Components
