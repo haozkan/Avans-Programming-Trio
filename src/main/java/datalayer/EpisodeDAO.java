@@ -71,7 +71,7 @@ public class EpisodeDAO implements IEpisode {
                 String duration = resultSet.getString("durage");
                 int season = resultSet.getInt("season");
 
-                epi = new Episode(epId,title,duration,season);
+                epi = new Episode(epId, title, duration, season);
 
             }
 
@@ -86,5 +86,29 @@ public class EpisodeDAO implements IEpisode {
     @Override
     public List getWatchedEpisodesByProfile(Profile p) {
         return null;
+    }
+
+    @Override
+    public int getAverageWatchtime(Episode e) {
+        Connection conn = null;
+        int avgWatchTime = 0;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT AVG(watched.percentage) AS avgPercentage FROM episode\n" +
+                    "LEFT JOIN watched ON watched.videoID = episode.videoID\n" +
+                    "WHERE episode.episodeID = ?");
+            statement.setInt(1, e.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                avgWatchTime = resultSet.getInt("avgPercentage");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+        return avgWatchTime;
     }
 }

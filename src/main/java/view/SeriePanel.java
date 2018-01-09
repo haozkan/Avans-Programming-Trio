@@ -1,11 +1,14 @@
 package view;
 
+import datalayer.EpisodeDAO;
 import datalayer.SerieDAO;
 import model.Episode;
 import model.Serie;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
@@ -14,14 +17,22 @@ import java.awt.event.ActionListener;
 
 class SeriePanel extends JPanel {
 
-    private String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
-    private DefaultTableModel tmSerie = new DefaultTableModel(columnNamesSerie, 0);
-    private JTable tableSeries = new JTable(tmSerie);
-    private JComboBox<Serie> comboBoxSerie = new JComboBox<>();
-    private JLabel averageWatchTime = new JLabel();
-    private JLabel averageWatchedEpisodeCount = new JLabel();
+    private DefaultTableModel tmSerie;
+    private JTable tableSeries;
+    private JComboBox<Serie> comboBoxSerie;
+    private JLabel averageWatchTime;
+    private JLabel averageWatchedEpisodeCount;
 
     SeriePanel() {
+
+        // Initialize Components
+        String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
+        tmSerie = new DefaultTableModel(columnNamesSerie, 0);
+        tableSeries = new JTable(tmSerie);
+        comboBoxSerie = new JComboBox<>();
+        averageWatchTime = new JLabel();
+        averageWatchedEpisodeCount = new JLabel();
+
 
         // Fill ComboBox with Series
         for (Serie s : SerieDAO.getInstance().getAllSeries()) {
@@ -35,8 +46,21 @@ class SeriePanel extends JPanel {
         comboBoxSerie.addActionListener(event -> {
             fillTable();
             Serie selectedSerie = (Serie) comboBoxSerie.getSelectedItem();
-            averageWatchTime.setText("Gemiddelde kijktijd:" + SerieDAO.getInstance().getAverageWatchTime(selectedSerie) + "%");
-            averageWatchedEpisodeCount.setText("Gemiddeld aantal bekeken afleveringen: " + 0 + "%");
+            averageWatchTime.setText("Gemiddelde kijktijd Serie:" + SerieDAO.getInstance().getAverageWatchTime(selectedSerie) + "%");
+
+            tableSeries.setRowSelectionInterval(0,0);
+
+        });
+
+        tableSeries.getSelectionModel().addListSelectionListener(e -> {
+            // Get Episode watchcount on selection changed
+            if (!tableSeries.getSelectionModel().isSelectionEmpty()) {
+                Episode selectedEpisode = EpisodeDAO.getInstance().getEpisodeByID(Integer.parseInt(tmSerie.getValueAt(tableSeries.getSelectedRow(), 0).toString()));
+                averageWatchedEpisodeCount.setText("Gemiddelde kijktijd aflevering: " + EpisodeDAO.getInstance().getAverageWatchtime(selectedEpisode) + "%");
+            } else {
+                averageWatchedEpisodeCount.setText("");
+            }
+
         });
 
         this.setLayout(new BorderLayout());
@@ -81,10 +105,7 @@ class SeriePanel extends JPanel {
         }
 
         // Set Average Watch time Text Label
-        averageWatchTime.setText("Average Watchtime:" + SerieDAO.getInstance().getAverageWatchTime(selectedSerie) + "%");
-
-        // Set Average Watched Epsiode Text Label
-        averageWatchedEpisodeCount.setText("Gemiddeld aantal bekeken afleveringen: " + 0 + "%");
+        averageWatchTime.setText("Gemiddelde kijktijd Serie:" + SerieDAO.getInstance().getAverageWatchTime(selectedSerie) + "%");
 
     }
 

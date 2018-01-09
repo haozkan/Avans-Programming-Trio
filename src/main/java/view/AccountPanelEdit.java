@@ -70,10 +70,10 @@ class AccountPanelEdit extends JFrame implements ActionListener {
                     AccountDAO.getInstance().updateAccount(a);
 
                     // Update Account Table
-                    UserInterface.getAccountpanel().updateAccountTable();
+                    AccountPanel.updateAccountTable();
 
                     // Update Account Combobox
-                    UserInterface.getProfilePanel().updateProfileCombox();
+                    ProfilePanel.updateProfileCombox();
 
                     // Close dialog
                     frame.dispose();

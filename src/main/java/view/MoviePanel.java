@@ -10,11 +10,15 @@ import java.awt.*;
 
 class MoviePanel extends JPanel {
 
-    private String[] columnNames = {"ID", "Titel", "Duratie", "Genre", "Taal", "Leeftijd"};
-    private DefaultTableModel tm = new DefaultTableModel(columnNames, 0);
-    private JTable tableMovie = new JTable(tm);
+    private DefaultTableModel tm;
+    private JTable tableMovie;
 
     MoviePanel() {
+
+        // Initialize Components
+        String[] columnNames = {"ID", "Titel", "Duratie", "Genre", "Taal", "Leeftijd"};
+        tm = new DefaultTableModel(columnNames, 0);
+        tableMovie = new JTable(tm);
 
         for (Movie m : MovieDAO.getInstance().getAllMovies()) {
             Object[] o = new Object[6];
