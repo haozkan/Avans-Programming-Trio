@@ -1,6 +1,5 @@
 package view;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import datalayer.ProfileDAO;
 import model.Profile;
 

@@ -180,13 +180,17 @@ class ProfilePanel extends JPanel {
 
     public void updateProfileCombox() {
 
-        // Clear ComboBox
-        comboBoxAccounts.removeAllItems();
+//        // Clear ComboBox
+//        comboBoxAccounts.removeAllItems();
 
         // Refill ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             comboBoxAccounts.addItem(a);
         }
+
+        // Set Selection
+        comboBoxAccounts.setSelectedIndex(0);
+
     }
 
     private void fillTable() {
