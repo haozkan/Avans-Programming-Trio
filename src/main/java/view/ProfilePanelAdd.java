@@ -1,5 +1,7 @@
 package view;
 
+import com.github.lgooddatepicker.components.DatePicker;
+import com.github.lgooddatepicker.components.DatePickerSettings;
 import datalayer.ProfileDAO;
 import model.Profile;
 import model.Account;
@@ -10,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 
 class ProfilePanelAdd extends JFrame implements ActionListener {
 
@@ -37,16 +40,22 @@ class ProfilePanelAdd extends JFrame implements ActionListener {
 
         JPanel inputFields = new JPanel();
         inputFields.setLayout(new GridLayout(0, 1));
+
         JTextField name = new JTextField();
-        JTextField dateofBirth = new JTextField();
+
         inputFields.add(new JLabel("Naam"));
         inputFields.add(name);
-        inputFields.add(new JLabel("Geboortedatum"));
-        inputFields.add(dateofBirth);
 
+        // DatePicker
+        inputFields.add(new JLabel("Geboortedatum"));
+        DatePickerSettings dateSettings = new DatePickerSettings();
+        dateSettings.setFormatForDatesBeforeCommonEra("yyyy-MM-dd");
+        dateSettings.setFormatForDatesCommonEra("yyyy-MM-dd");
+        DatePicker dateofBirth = new DatePicker(dateSettings);
+        inputFields.add(dateofBirth);
         container.add(inputFields, BorderLayout.CENTER);
 
-        //Combobox starts here
+        // Combobox starts here
         JPanel panelBox = new JPanel();
         panelBox.setLayout(new BorderLayout());
 
@@ -56,7 +65,7 @@ class ProfilePanelAdd extends JFrame implements ActionListener {
         JLabel giveSelection = new JLabel("Select account to add profile to");
         panelBox.add(giveSelection, BorderLayout.NORTH);
 
-        //Fill combobox with accounts
+        // Fill combobox with accounts
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             accountSelect.addItem(a);
         }
