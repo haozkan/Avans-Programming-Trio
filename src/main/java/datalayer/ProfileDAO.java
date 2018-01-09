@@ -107,6 +107,7 @@ public class ProfileDAO implements IProfile {
                     "`dateofBirth` =? WHERE profileID = ?");
             statement.setString(1, p.getProfileName());
             statement.setDate(2, p.getDateOfBirth());
+            statement.setInt(3,p.getProfileID());
             statement.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();

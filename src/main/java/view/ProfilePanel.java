@@ -6,7 +6,6 @@ import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
 import model.Account;
 import model.Profile;
-import net.miginfocom.layout.Grid;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,12 +19,17 @@ import java.util.concurrent.Flow;
 
 class ProfilePanel extends JPanel {
 
-    private String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
-    private DefaultTableModel tmProfile = new DefaultTableModel(columnNamesProfile, 0);
-    private JTable tableProfile = new JTable(tmProfile);
-    private JComboBox<Account> comboBoxAccounts = new JComboBox<>();
+    private static DefaultTableModel tmProfile;
+    private static JTable tableProfile;
+    private static JComboBox<Account> comboBoxAccounts;
 
     ProfilePanel() {
+
+        // Initialize Components
+        String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
+        tmProfile = new DefaultTableModel(columnNamesProfile, 0);
+        tableProfile = new JTable(tmProfile);
+        comboBoxAccounts = new JComboBox<>();
 
         // Get all Accounts and put them in ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
@@ -139,9 +143,31 @@ class ProfilePanel extends JPanel {
             // Refresh Account and Profile Tables
             updateProfileTable();
         });
+
+        // Edit Button Action
+        editButton.addActionListener(e -> {
+
+            // Reset values
+            int selectedRow = 0;
+            int selectedID = -1;
+
+            // Get selected row and ID
+            selectedRow = tableProfile.getSelectedRow();
+            selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+            // Open Edit Frame
+            ProfilePanelEdit editPanel = new ProfilePanelEdit(selectedID);
+        });
+
+
+        // Disable delete button if selection is empty
+        listSelectionModel.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            deleteButton.setEnabled(!lsm.isSelectionEmpty());
+        });
     }
 
-    public void updateProfileTable() {
+    public static void updateProfileTable() {
 
         // Clear table
         tmProfile.setRowCount(0);
@@ -157,15 +183,19 @@ class ProfilePanel extends JPanel {
         }
     }
 
-    public void updateProfileCombox() {
+    public static void updateProfileCombox() {
 
-        // Clear ComboBox
-        comboBoxAccounts.removeAllItems();
+//        // Clear ComboBox
+//        comboBoxAccounts.removeAllItems();
 
         // Refill ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             comboBoxAccounts.addItem(a);
         }
+
+        // Set Selection
+        comboBoxAccounts.setSelectedIndex(0);
+
     }
 
     private void fillTable() {
@@ -186,4 +216,6 @@ class ProfilePanel extends JPanel {
             tmProfile.addRow(o);
         }
     }
+
+
 }
