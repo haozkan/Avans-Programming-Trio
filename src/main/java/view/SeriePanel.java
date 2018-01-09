@@ -17,14 +17,22 @@ import java.awt.event.ActionListener;
 
 class SeriePanel extends JPanel {
 
-    private String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
-    private DefaultTableModel tmSerie = new DefaultTableModel(columnNamesSerie, 0);
-    private JTable tableSeries = new JTable(tmSerie);
-    private JComboBox<Serie> comboBoxSerie = new JComboBox<>();
-    private JLabel averageWatchTime = new JLabel();
-    private JLabel averageWatchedEpisodeCount = new JLabel();
+    private DefaultTableModel tmSerie;
+    private JTable tableSeries;
+    private JComboBox<Serie> comboBoxSerie;
+    private JLabel averageWatchTime;
+    private JLabel averageWatchedEpisodeCount;
 
     SeriePanel() {
+
+        // Initialize Components
+        String[] columnNamesSerie = {"ID", "Titel", "Duratie", "Seizoen"};
+        tmSerie = new DefaultTableModel(columnNamesSerie, 0);
+        tableSeries = new JTable(tmSerie);
+        comboBoxSerie = new JComboBox<>();
+        averageWatchTime = new JLabel();
+        averageWatchedEpisodeCount = new JLabel();
+
 
         // Fill ComboBox with Series
         for (Serie s : SerieDAO.getInstance().getAllSeries()) {

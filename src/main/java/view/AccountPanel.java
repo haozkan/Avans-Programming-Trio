@@ -11,12 +11,16 @@ import java.awt.*;
 
 class AccountPanel extends JPanel {
 
-    private String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
-    private DefaultTableModel tmAccount = new DefaultTableModel(columnNamesAccount, 0);
-    private JTable tableAccount = new JTable(tmAccount);
+    private static DefaultTableModel tmAccount;
+    private static JTable tableAccount;
 
 
     AccountPanel() {
+
+        // Initialize Components
+        String[] columnNamesAccount = {"ID", "Naam", "StraatNaam", "Huisnummer", "Postcode", "Woonplaats"};
+        tmAccount = new DefaultTableModel(columnNamesAccount, 0);
+        tableAccount = new JTable(tmAccount);
 
         // Get rows from database
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
@@ -102,8 +106,8 @@ class AccountPanel extends JPanel {
 
                 // Refresh Account and Profile tables and ComboBox
                 updateAccountTable();
-                UserInterface.getProfilePanel().updateProfileTable();
-                UserInterface.getProfilePanel().updateProfileCombox();
+                ProfilePanel.updateProfileTable();
+                ProfilePanel.updateProfileCombox();
             }
 
         });
@@ -143,7 +147,7 @@ class AccountPanel extends JPanel {
         this.add(panelTable, BorderLayout.CENTER);
     }
 
-    public void updateAccountTable() {
+    public static void updateAccountTable() {
         // Clear Table
         tmAccount.setRowCount(0);
 

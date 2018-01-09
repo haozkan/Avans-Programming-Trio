@@ -1,55 +1,56 @@
 package view;
 
-import datalayer.AccountDAO;
-import model.Account;
+import datalayer.ProfileDAO;
+import model.Profile;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-class AccountPanelAdd extends JFrame implements ActionListener {
+public class ProfilePanelEdit extends JFrame implements ActionListener {
+
 
     private JDialog frame;
 
-    AccountPanelAdd() {
-        frame = new JDialog(UserInterface.getFrame(), "Add account");
+    ProfilePanelEdit(int profileID) {
+        frame = new JDialog(UserInterface.getFrame(), "Edit profile");
         frame.setPreferredSize(new Dimension(400, 250));
         frame.setLocationRelativeTo(UserInterface.getFrame());
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.setResizable(Boolean.FALSE);
-        createComponents(frame.getContentPane());
+        createComponents(frame.getContentPane(), profileID);
         frame.pack();
         frame.setVisible(true);
     }
 
-    private void createComponents(Container container) {
+    private void createComponents(Container container, int profileID) {
         container.setLayout(new BorderLayout());
 
         // Add padding to dialog
         JPanel panel = (JPanel) frame.getContentPane();
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+        // Get Profile
+        Profile p = ProfileDAO.getInstance().getProfileByID(profileID);
+
+        // Create textfields and fill them with Object properties
         JPanel inputFields = new JPanel();
         inputFields.setLayout(new GridLayout(0, 1));
-        JTextField name = new JTextField();
-        JTextField street = new JTextField();
-        JTextField houseNumber = new JTextField();
-        JTextField zipcode = new JTextField();
-        JTextField residence = new JTextField();
+        JTextField name = new JTextField(p.getProfileName());
+        JTextField dateofBirth = new JTextField(p.getDateOfBirth().toString());
+
+        // Add Input fields to Panel
         inputFields.add(new JLabel("Naam"));
         inputFields.add(name);
-        inputFields.add(new JLabel("Straat"));
-        inputFields.add(street);
-        inputFields.add(new JLabel("Huisnummer"));
-        inputFields.add(houseNumber);
-        inputFields.add(new JLabel("Postcode"));
-        inputFields.add(zipcode);
-        inputFields.add(new JLabel("Woonplaats"));
-        inputFields.add(residence);
+        inputFields.add(new JLabel("Geboortedatum"));
+        inputFields.add(dateofBirth);
         container.add(inputFields, BorderLayout.CENTER);
 
+        // Update button updates Profile and exits dialog
         JPanel bottomButtons = new JPanel();
         bottomButtons.setLayout(new FlowLayout());
         JButton addButton = new JButton("Opslaan");
@@ -57,36 +58,41 @@ class AccountPanelAdd extends JFrame implements ActionListener {
         addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Account a = new Account(name.getText(), street.getText(), houseNumber.getText(), zipcode.getText(), residence.getText());
-                AccountDAO.getInstance().createAccount(a);
-                AccountPanel.updateAccountTable();
-                ProfilePanel.updateProfileCombox();
-                frame.dispose();
+                try {
+                    String date = dateofBirth.getText();
+                    java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
+                    // Update profile
+                    Profile p = new Profile(name.getText(),javaSqlDate, profileID);
+                    ProfileDAO.getInstance().updateProfile(p);
+
+                    // Update Profile Table
+                    ProfilePanel.updateProfileTable();
+
+                    // Update Profile Combobox
+                    //UserInterface.getProfilePanel().updateProfileCombox();
+
+                    // Close dialog
+                    frame.dispose();
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
             }
         });
+
+        // Cancel button clears fields and exits dialog
         JButton cancelButton = new JButton("Annuleren");
         bottomButtons.add(cancelButton);
         cancelButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispose();
-                name.setText("");
-                street.setText("");
-                houseNumber.setText("");
-                zipcode.setText("");
-                residence.setText("");
             }
         });
-
         container.add(bottomButtons, BorderLayout.SOUTH);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setVisible(true);
-    }
-
-    public JDialog getFrame() {
-        return frame;
     }
 }

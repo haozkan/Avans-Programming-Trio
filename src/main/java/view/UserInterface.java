@@ -9,10 +9,6 @@ import static javax.swing.SwingConstants.LEFT;
 
 public class UserInterface implements Runnable {
 
-    private static AccountPanel accountpanel = new AccountPanel();
-    private static ProfilePanel profilePanel = new ProfilePanel();
-    private static MoviePanel moviePanel = new MoviePanel();
-    private static SeriePanel seriePanel = new SeriePanel();
     private static JFrame frame;
 
     @Override
@@ -43,6 +39,10 @@ public class UserInterface implements Runnable {
     private JPanel leftButtons() {
         JPanel panel = new JPanel();
         JTabbedPane pane = new JTabbedPane();
+        AccountPanel accountpanel = new AccountPanel();
+        ProfilePanel profilePanel = new ProfilePanel();
+        MoviePanel moviePanel = new MoviePanel();
+        SeriePanel seriePanel = new SeriePanel();
         pane.setTabPlacement(LEFT);
         pane.addTab("Account", accountpanel);
         pane.addTab("Profiel", profilePanel);
@@ -60,22 +60,6 @@ public class UserInterface implements Runnable {
         panel.add(new JLabel("Netflix Statistix", JLabel.LEFT), BorderLayout.WEST);
         panel.add(new JLabel("Informatica klas1E - Djim Oomes, Marco van Poortvliet", JLabel.RIGHT), BorderLayout.EAST);
         return panel;
-    }
-
-    public static AccountPanel getAccountpanel() {
-        return accountpanel;
-    }
-
-    public static ProfilePanel getProfilePanel() {
-        return profilePanel;
-    }
-
-    public static MoviePanel getMoviePanel() {
-        return moviePanel;
-    }
-
-    public static SeriePanel getSeriePanel() {
-        return seriePanel;
     }
 
     public static JFrame getFrame() {

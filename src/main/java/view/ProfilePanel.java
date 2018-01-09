@@ -34,6 +34,12 @@ class ProfilePanel extends JPanel {
 
     ProfilePanel() {
 
+        // Initialize Components
+        String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
+        tmProfile = new DefaultTableModel(columnNamesProfile, 0);
+        tableProfile = new JTable(tmProfile);
+        comboBoxAccounts = new JComboBox<>();
+
         // Get all Accounts and put them in ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             comboBoxAccounts.addItem(a);
@@ -174,9 +180,31 @@ class ProfilePanel extends JPanel {
             // Refresh Account and Profile Tables
             updateProfileTable();
         });
+
+        // Edit Button Action
+        editButton.addActionListener(e -> {
+
+            // Reset values
+            int selectedRow = 0;
+            int selectedID = -1;
+
+            // Get selected row and ID
+            selectedRow = tableProfile.getSelectedRow();
+            selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+            // Open Edit Frame
+            ProfilePanelEdit editPanel = new ProfilePanelEdit(selectedID);
+        });
+
+
+        // Disable delete button if selection is empty
+        listSelectionModel.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            deleteButton.setEnabled(!lsm.isSelectionEmpty());
+        });
     }
 
-    public void updateProfileTable() {
+    public static void updateProfileTable() {
 
         // Clear table
         tmProfile.setRowCount(0);
@@ -192,48 +220,19 @@ class ProfilePanel extends JPanel {
         }
     }
 
-    public void updateMovieTable() {
-        // Clear table
-        tmMovies.setRowCount(0);
+    public static void updateProfileCombox() {
 
-        // Get selected row and ID
-        int selectedRow = tableProfile.getSelectedRow();
-        int selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
-
-        // Refill table from DB
-        for (Movie m : MovieDAO.getInstance().getWatchedMoviesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
-            Object[] o = new Object[1];
-            o[0] = m.getTitle();
-            tmMovies.addRow(o);
-        }
-    }
-
-    public void updateSeriesTable() {
-
-        // Clear table
-        tmMovies.setRowCount(0);
-
-        // Get selected row and ID
-        int selectedRow = tableProfile.getSelectedRow();
-        int selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
-
-        // Refill table from DB
-        for (Serie s : SerieDAO.getInstance().getWatchedSeriesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
-            Object[] o = new Object[1];
-            o[0] = s.getName();
-            tmMovies.addRow(o);
-        }
-    }
-
-    public void updateProfileCombox() {
-
-        // Clear ComboBox
-        comboBoxAccounts.removeAllItems();
+//        // Clear ComboBox
+//        comboBoxAccounts.removeAllItems();
 
         // Refill ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             comboBoxAccounts.addItem(a);
         }
+
+        // Set Selection
+        comboBoxAccounts.setSelectedIndex(0);
+
     }
 
     private void fillTable() {
@@ -254,4 +253,6 @@ class ProfilePanel extends JPanel {
             tmProfile.addRow(o);
         }
     }
+
+
 }
