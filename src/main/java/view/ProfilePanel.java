@@ -21,16 +21,15 @@ import java.util.concurrent.Flow;
 
 class ProfilePanel extends JPanel {
 
-    private String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
     private String[] columnNamesMovies = {"Naam", "Percentage"};
     private String[] columnNamesSeries = {"Naam", "Percentage"};
-    private DefaultTableModel tmProfile = new DefaultTableModel(columnNamesProfile, 0);
     private DefaultTableModel tmMovies = new DefaultTableModel(columnNamesMovies, 0);
     private DefaultTableModel tmSeries = new DefaultTableModel(columnNamesSeries, 0);
-    private JTable tableProfile = new JTable(tmProfile);
     private JTable watchedMoviesTable = new JTable(tmMovies);
     private JTable watchedSeriesTable = new JTable(tmSeries);
-    private JComboBox<Account> comboBoxAccounts = new JComboBox<>();
+    private static DefaultTableModel tmProfile;
+    private static JTable tableProfile;
+    private static JComboBox<Account> comboBoxAccounts;
 
     ProfilePanel() {
 
@@ -217,6 +216,39 @@ class ProfilePanel extends JPanel {
             o[2] = p.getProfileName();
             o[3] = p.getDateOfBirth();
             tmProfile.addRow(o);
+        }
+    }
+
+    public void updateMovieTable() {
+        // Clear table
+        tmMovies.setRowCount(0);
+
+        // Get selected row and ID
+        int selectedRow = tableProfile.getSelectedRow();
+        int selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+        // Refill table from DB
+        for (Movie m : MovieDAO.getInstance().getWatchedMoviesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
+            Object[] o = new Object[1];
+            o[0] = m.getTitle();
+            tmMovies.addRow(o);
+        }
+    }
+
+    public void updateSeriesTable() {
+
+        // Clear table
+        tmMovies.setRowCount(0);
+
+        // Get selected row and ID
+        int selectedRow = tableProfile.getSelectedRow();
+        int selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
+
+        // Refill table from DB
+        for (Serie s : SerieDAO.getInstance().getWatchedSeriesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
+            Object[] o = new Object[1];
+            o[0] = s.getName();
+            tmMovies.addRow(o);
         }
     }
 
