@@ -11,13 +11,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class ProfilePanelAdd extends JFrame implements ActionListener{
+class ProfilePanelAdd extends JFrame implements ActionListener {
 
     private JDialog frame;
     private static JComboBox<Account> accountSelect;
     private Account selected;
 
-    ProfilePanelAdd(){
+    ProfilePanelAdd() {
         frame = new JDialog(UserInterface.getFrame(), "Add profile");
         frame.setPreferredSize(new Dimension(400, 250));
         frame.setLocationRelativeTo(UserInterface.getFrame());
@@ -28,13 +28,12 @@ class ProfilePanelAdd extends JFrame implements ActionListener{
         frame.setVisible(true);
     }
 
-    private void createComponents(Container container){
+    private void createComponents(Container container) {
         container.setLayout(new BorderLayout());
 
         // Add padding to dialog
         JPanel panel = (JPanel) frame.getContentPane();
         panel.setBorder(new EmptyBorder(5, 5, 5, 5));
-
 
         JPanel inputFields = new JPanel();
         inputFields.setLayout(new GridLayout(0, 1));
@@ -42,7 +41,7 @@ class ProfilePanelAdd extends JFrame implements ActionListener{
         JTextField dateofBirth = new JTextField();
         inputFields.add(new JLabel("Naam"));
         inputFields.add(name);
-        inputFields.add(new JLabel("Geboorte Datum"));
+        inputFields.add(new JLabel("Geboortedatum"));
         inputFields.add(dateofBirth);
 
         container.add(inputFields, BorderLayout.CENTER);
@@ -51,46 +50,46 @@ class ProfilePanelAdd extends JFrame implements ActionListener{
         JPanel panelBox = new JPanel();
         panelBox.setLayout(new BorderLayout());
 
-        accountSelect= new JComboBox<Account>();
-        panelBox.add(accountSelect,BorderLayout.CENTER);
+        accountSelect = new JComboBox<>();
+        panelBox.add(accountSelect, BorderLayout.CENTER);
 
-        JLabel giveSelection=new JLabel("Select account to add profile to");
-        panelBox.add(giveSelection,BorderLayout.NORTH);
+        JLabel giveSelection = new JLabel("Select account to add profile to");
+        panelBox.add(giveSelection, BorderLayout.NORTH);
 
         //Fill combobox with accounts
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
             accountSelect.addItem(a);
         }
-        accountSelect.addActionListener(new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selected = (Account) accountSelect.getSelectedItem();
-            }
-        });
 
-        container.add(panelBox,BorderLayout.NORTH);
+        // Set Selection
+        accountSelect.setSelectedIndex(0);
 
         JPanel bottomButtons = new JPanel();
         bottomButtons.setLayout(new FlowLayout());
+
         JButton addButton = new JButton("Opslaan");
+        JButton cancelButton = new JButton("Annuleren");
+
         bottomButtons.add(addButton);
+        bottomButtons.add(cancelButton);
+
         addButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 String date = dateofBirth.getText();
                 java.sql.Date javaSqlDate = java.sql.Date.valueOf(date);
+                selected = (Account) accountSelect.getSelectedItem();
 
-
-
-                Profile p = new Profile(name.getText(), javaSqlDate,0,0,selected.getAccountNumber());
+                Profile p = new Profile(name.getText(), javaSqlDate, 0, 0, selected.getAccountNumber());
                 ProfileDAO.getInstance().createProfile(p);
-                ProfilePanel.updateProfileTable();
                 ProfilePanel.updateProfileCombox();
+                ProfilePanel.updateProfileTable();
                 frame.dispose();
             }
         });
-        JButton cancelButton = new JButton("Annuleren");
-        bottomButtons.add(cancelButton);
+
+
         cancelButton.addActionListener(new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -100,10 +99,11 @@ class ProfilePanelAdd extends JFrame implements ActionListener{
             }
         });
 
-
         container.add(bottomButtons, BorderLayout.SOUTH);
+        container.add(panelBox, BorderLayout.NORTH);
 
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         frame.setVisible(true);
