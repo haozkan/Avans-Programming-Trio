@@ -284,6 +284,12 @@ class ProfilePanel extends JPanel {
             o[3] = p.getDateOfBirth();
             tmProfile.addRow(o);
         }
+
+        // Hide ID's
+        tableProfile.getColumnModel().getColumn(0).setMinWidth(0);
+        tableProfile.getColumnModel().getColumn(0).setMaxWidth(0);
+        tableProfile.getColumnModel().getColumn(1).setMinWidth(0);
+        tableProfile.getColumnModel().getColumn(1).setMaxWidth(0);
     }
 
 

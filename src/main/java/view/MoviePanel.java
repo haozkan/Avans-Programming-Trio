@@ -31,6 +31,10 @@ class MoviePanel extends JPanel {
             tm.addRow(o);
         }
 
+        // Hide ID
+        tableMovie.getColumnModel().getColumn(0).setMinWidth(0);
+        tableMovie.getColumnModel().getColumn(0).setMaxWidth(0);
+
         this.setLayout(new BorderLayout());
         JScrollPane scrollPane = new JScrollPane(tableMovie);
         tableMovie.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
