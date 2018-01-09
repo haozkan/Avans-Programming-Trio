@@ -2,6 +2,7 @@ package datalayer;
 
 import datalayerinterface.ISerie;
 import model.Episode;
+import model.Profile;
 import model.Serie;
 
 import java.sql.Connection;
@@ -136,5 +137,10 @@ public class SerieDAO implements ISerie {
             MysqlDAO.getInstance().closeConnection(conn);
         }
         return avgWatchTime;
+    }
+
+    @Override
+    public List<Serie> getWatchedSeriesByProfile(Profile p) {
+        return null;
     }
 }
