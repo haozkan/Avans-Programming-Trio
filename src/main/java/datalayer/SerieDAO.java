@@ -146,10 +146,11 @@ public class SerieDAO implements ISerie {
         Connection conn= null;
         try{
             conn = MysqlDAO.getInstance().connect();
-            PreparedStatement statement = conn.prepareStatement("SELECT serieName FROM serie" +
-                    "INNER JOIN episode ON episode.serieID = serie.serieID" +
-                    "INNER JOIN watched ON watched.videoID = episode.videoID" +
-                    "INNER JOIN profile ON profile.profileID = watched.profileID WHERE profileID = ?");
+            PreparedStatement statement = conn.prepareStatement("SELECT serieName FROM serie\n" +
+                    "INNER JOIN episode ON episode.serieID = serie.serieID\n" +
+                    "INNER JOIN watched ON watched.videoID = episode.videoID\n" +
+                    "INNER JOIN profile ON profile.profileID = watched.profileID\n " +
+                    "WHERE profileID = ?");
             statement.setInt(1,p.getProfileID());
             ResultSet resultSet = statement.executeQuery();
             while(resultSet.next()){
