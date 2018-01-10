@@ -104,6 +104,10 @@ class SeriePanel extends JPanel {
             tmSerie.addRow(o);
         }
 
+        // Hide ID
+        tableSeries.getColumnModel().getColumn(0).setMinWidth(0);
+        tableSeries.getColumnModel().getColumn(0).setMaxWidth(0);
+
         // Set Average Watch time Text Label
         averageWatchTime.setText("Gemiddelde kijktijd Serie:" + SerieDAO.getInstance().getAverageWatchTime(selectedSerie) + "%");
 
