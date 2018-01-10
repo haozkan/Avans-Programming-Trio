@@ -34,6 +34,10 @@ class AccountPanel extends JPanel {
             tmAccount.addRow(o);
         }
 
+        // Hide ID
+        tableAccount.getColumnModel().getColumn(0).setMinWidth(0);
+        tableAccount.getColumnModel().getColumn(0).setMaxWidth(0);
+
         // Table Panel
         JPanel panelTable = new JPanel();
         panelTable.setLayout(new BorderLayout());

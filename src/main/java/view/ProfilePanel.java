@@ -7,7 +7,6 @@ import model.Account;
 import model.Movie;
 import model.Profile;
 import model.Serie;
-import net.miginfocom.layout.Grid;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -180,6 +179,11 @@ class ProfilePanel extends JPanel {
             updateProfileTable();
         });
 
+        // Add Button Action
+        addButton.addActionListener(e -> {
+            new ProfilePanelAdd();
+        });
+
         // Edit Button Action
         editButton.addActionListener(e -> {
 
@@ -205,11 +209,14 @@ class ProfilePanel extends JPanel {
 
     public static void updateProfileTable() {
 
-        // Clear table
+        /// Clear Table
         tmProfile.setRowCount(0);
 
-        // Refill table from DB
-        for (Profile p : ProfileDAO.getInstance().getAllProfiles()) {
+        // Get Selected Account Object from ComboBox
+        Account selectedAccount = (Account) comboBoxAccounts.getSelectedItem();
+
+        // Fill table with Profiles by Account
+        for (Profile p : ProfileDAO.getInstance().getProfilesByAccount(selectedAccount)) {
             Object[] o = new Object[4];
             o[0] = p.getProfileID();
             o[1] = p.getAccountID();
@@ -217,6 +224,12 @@ class ProfilePanel extends JPanel {
             o[3] = p.getDateOfBirth();
             tmProfile.addRow(o);
         }
+
+        // Hide ID's
+        tableProfile.getColumnModel().getColumn(0).setMinWidth(0);
+        tableProfile.getColumnModel().getColumn(0).setMaxWidth(0);
+        tableProfile.getColumnModel().getColumn(1).setMinWidth(0);
+        tableProfile.getColumnModel().getColumn(1).setMaxWidth(0);
     }
 
     public void updateMovieTable() {
@@ -284,6 +297,12 @@ class ProfilePanel extends JPanel {
             o[3] = p.getDateOfBirth();
             tmProfile.addRow(o);
         }
+
+        // Hide ID's
+        tableProfile.getColumnModel().getColumn(0).setMinWidth(0);
+        tableProfile.getColumnModel().getColumn(0).setMaxWidth(0);
+        tableProfile.getColumnModel().getColumn(1).setMinWidth(0);
+        tableProfile.getColumnModel().getColumn(1).setMaxWidth(0);
     }
 
 
