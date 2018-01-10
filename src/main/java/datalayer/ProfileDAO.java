@@ -84,11 +84,11 @@ public class ProfileDAO implements IProfile {
         try {
             conn = MysqlDAO.getInstance().connect();
             PreparedStatement statement = conn.prepareStatement("" + "INSERT INTO `profile` " +
-                    "(`profileID`, `accountID`, `profileName`, `dateofBirth`) VALUES (?,?,?,?)");
-            statement.setInt(1, p.getProfileID());
-            statement.setInt(2, p.getAccountID());
-            statement.setString(3, p.getProfileName());
-            statement.setDate(4, p.getDateOfBirth());
+                    "(`accountID`,`profileName`, `dateofBirth`) VALUES (?,?,?)");
+            statement.setInt(1, p.getAccountID());
+            statement.setString(2, p.getProfileName());
+            statement.setDate(3, p.getDateOfBirth());
+            System.out.println(statement.toString());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
