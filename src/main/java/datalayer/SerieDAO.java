@@ -141,6 +141,33 @@ public class SerieDAO implements ISerie {
 
     @Override
     public List<Serie> getWatchedSeriesByProfile(Profile p) {
-        return null;
+        ArrayList<Serie> series = new ArrayList<Serie>();
+
+        Connection conn= null;
+        try{
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT serieName FROM serie" +
+                    "INNER JOIN episode ON episode.serieID = serie.serieID" +
+                    "INNER JOIN watched ON watched.videoID = episode.videoID" +
+                    "INNER JOIN profile ON profile.profileID = watched.profileID WHERE profileID = ?");
+            statement.setInt(1,p.getProfileID());
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                int id = resultSet.getInt("serieID");
+                String name = resultSet.getString("serieName");
+                int age = resultSet.getInt("ageClassification");
+                String language = resultSet.getString("language");
+                String genre = resultSet.getString("genre");
+
+                Serie s = new Serie(id,name,age,language,genre);
+                series.add(s);
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }finally{
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+
+        return series;
     }
 }
