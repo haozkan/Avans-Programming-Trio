@@ -141,31 +141,31 @@ public class SerieDAO implements ISerie {
 
     @Override
     public List<Serie> getWatchedSeriesByProfile(Profile p) {
-        ArrayList<Serie> series = new ArrayList<Serie>();
-
-        Connection conn= null;
-        try{
+        ArrayList<Serie> series = new ArrayList<>();
+        Connection conn = null;
+        try {
             conn = MysqlDAO.getInstance().connect();
-            PreparedStatement statement = conn.prepareStatement("SELECT serieName FROM serie\n" +
-                    "INNER JOIN episode ON episode.serieID = serie.serieID\n" +
-                    "INNER JOIN watched ON watched.videoID = episode.videoID\n" +
-                    "INNER JOIN profile ON profile.profileID = watched.profileID\n " +
-                    "WHERE profileID = ?");
-            statement.setInt(1,p.getProfileID());
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM serie \n" +
+                    "INNER JOIN episode ON episode.serieID = serie.serieID \n" +
+                    "INNER JOIN watched ON watched.videoID = episode.videoID \n" +
+                    "INNER JOIN profile ON profile.profileID = watched.profileID \n " +
+                    "WHERE profile.profileID = ?");
+            statement.setInt(1, p.getProfileID());
             ResultSet resultSet = statement.executeQuery();
-            while(resultSet.next()){
+
+            while (resultSet.next()) {
                 int id = resultSet.getInt("serieID");
                 String name = resultSet.getString("serieName");
                 int age = resultSet.getInt("ageClassification");
                 String language = resultSet.getString("language");
                 String genre = resultSet.getString("genre");
 
-                Serie s = new Serie(id,name,age,language,genre);
+                Serie s = new Serie(id, name, age, language, genre);
                 series.add(s);
             }
-        } catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
-        }finally{
+        } finally {
             MysqlDAO.getInstance().closeConnection(conn);
         }
 
