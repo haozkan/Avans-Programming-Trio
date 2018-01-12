@@ -6,6 +6,7 @@ import model.Movie;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.*;
 import java.awt.*;
 
 class MoviePanel extends JPanel {
@@ -20,6 +21,7 @@ class MoviePanel extends JPanel {
         tm = new DefaultTableModel(columnNames, 0);
         tableMovie = new JTable(tm);
 
+
         for (Movie m : MovieDAO.getInstance().getAllMovies()) {
             Object[] o = new Object[6];
             o[0] = m.getId();
@@ -30,6 +32,11 @@ class MoviePanel extends JPanel {
             o[5] = m.getAgeRating();
             tm.addRow(o);
         }
+
+        //Sorting
+        TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(tm);
+        tableMovie.setRowSorter(sorter);
+        
 
         // Hide ID
         tableMovie.getColumnModel().getColumn(0).setMinWidth(0);
