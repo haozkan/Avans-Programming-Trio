@@ -121,10 +121,10 @@ class ProfilePanel extends JPanel {
         tableProfile.getSelectionModel().addListSelectionListener(e -> {
             if (!tableProfile.getSelectionModel().isSelectionEmpty()) {
                 updateMovieTable();
-//                updateSeriesTable();
+                updateSeriesTable();
             } else {
                 tmMovies.setRowCount(0);
-//                tmSeries.setRowCount(0);
+                tmSeries.setRowCount(0);
             }
         });
 
@@ -251,7 +251,7 @@ class ProfilePanel extends JPanel {
     public void updateSeriesTable() {
 
         // Clear table
-        tmMovies.setRowCount(0);
+        tmSeries.setRowCount(0);
 
         // Get selected row and ID
         int selectedRow = tableProfile.getSelectedRow();
@@ -261,7 +261,7 @@ class ProfilePanel extends JPanel {
         for (Serie s : SerieDAO.getInstance().getWatchedSeriesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
             Object[] o = new Object[1];
             o[0] = s.getName();
-            tmMovies.addRow(o);
+            tmSeries.addRow(o);
         }
     }
 
