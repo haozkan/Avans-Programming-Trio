@@ -27,6 +27,7 @@ class MoviePanel extends JPanel {
         tableMovie = new JTable(tm);
         watched = new JLabel();
         String[] ages = {"0-12", "13-16", "17-18", "18+"};
+        String[] twelve = {};
         ageRequirement = new JComboBox(ages);
         JLabel requestedAge = new JLabel("Select age requirement");
 
@@ -40,7 +41,33 @@ class MoviePanel extends JPanel {
 
             if (ageSelection.equals("0-12")) {
                 for (int i = 0; i < tm.getRowCount(); i++) {
-                    if (tm.getValueAt(i, 5).equals("3")) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number > 12) {
+                        tm.removeRow(i);
+                    }
+                }
+            } else if (ageSelection.equals("13-16")) {
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number <13 || number > 16) {
+                        tm.removeRow(i);
+                    }
+                }
+            } else if (ageSelection.equals("17-18")) {
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number <17 || number > 18) {
+                        tm.removeRow(i);
+                    }
+                }
+            } else if (ageSelection.equals("18+")) {
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number <18) {
                         tm.removeRow(i);
                     }
                 }
