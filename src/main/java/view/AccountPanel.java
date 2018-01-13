@@ -8,6 +8,8 @@ import model.Account;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 class AccountPanel extends JPanel {
 
@@ -61,6 +63,7 @@ class AccountPanel extends JPanel {
         JButton addButton = new JButton();
         JButton editButton = new JButton();
         JButton deleteButton = new JButton();
+        JCheckBox oneProfile = new JCheckBox("1 Profiel");
 
         // Set Button Icons
         addButton.setIcon(addIcon);
@@ -68,6 +71,7 @@ class AccountPanel extends JPanel {
         deleteButton.setIcon(deleteIcon);
 
         // Add Buttons to panel
+        panelButtons.add(oneProfile);
         panelButtons.add(addButton);
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
@@ -75,6 +79,15 @@ class AccountPanel extends JPanel {
         // Edit and Delete buttons are disabled on init
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
+
+        // Checkbox Action
+        oneProfile.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                updateAccountTableOneProfile();
+            } else {
+                updateAccountTable();
+            }
+        });
 
         // Add Button Action
         addButton.addActionListener(e -> {
@@ -149,6 +162,23 @@ class AccountPanel extends JPanel {
         this.setLayout(new BorderLayout());
         this.add(panelButtons, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
+    }
+
+    public static void updateAccountTableOneProfile() {
+        // Clear Table
+        tmAccount.setRowCount(0);
+
+        // Get rows from database
+        for (Account a : AccountDAO.getInstance().getAccountsWithOneProfile()) {
+            Object[] o = new Object[6];
+            o[0] = a.getAccountNumber();
+            o[1] = a.getAccountName();
+            o[2] = a.getStreetname();
+            o[3] = a.getHouseNumber();
+            o[4] = a.getZipcode();
+            o[5] = a.getResidence();
+            tmAccount.addRow(o);
+        }
     }
 
     public static void updateAccountTable() {

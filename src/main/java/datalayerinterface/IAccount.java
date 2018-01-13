@@ -16,5 +16,7 @@ public interface IAccount {
 
     public void deleteAccount(Account a);
 
+    public List getAccountsWithOneProfile();
+
 
 }
