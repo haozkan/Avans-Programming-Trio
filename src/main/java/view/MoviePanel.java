@@ -1,9 +1,12 @@
 package view;
 
+import datalayer.EpisodeDAO;
 import datalayer.MovieDAO;
+import model.Episode;
 import model.Movie;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.*;
@@ -14,6 +17,7 @@ class MoviePanel extends JPanel {
     private DefaultTableModel tm;
     private JTable tableMovie;
     private JComboBox ageRequirement;
+    private JLabel watched;
 
     MoviePanel() {
 
@@ -21,8 +25,8 @@ class MoviePanel extends JPanel {
         String[] columnNames = {"ID", "Titel", "Duratie", "Genre", "Taal", "Leeftijd"};
         tm = new DefaultTableModel(columnNames, 0);
         tableMovie = new JTable(tm);
-
-        String[] ages = {"0-12", "13-16", "17-18","18+"};
+        watched = new JLabel();
+        String[] ages = {"0-12", "13-16", "17-18", "18+"};
         ageRequirement = new JComboBox(ages);
         JLabel requestedAge = new JLabel("Select age requirement");
 
@@ -31,12 +35,12 @@ class MoviePanel extends JPanel {
         topPanel.add(ageRequirement);
         JButton sort = new JButton("Sort");
         topPanel.add(sort);
-        sort.addActionListener(e->{
+        sort.addActionListener(e -> {
             String ageSelection = ageRequirement.getSelectedItem().toString();
 
-            if(ageSelection.equals("0-12")){
-                for(int i=0; i<tm.getRowCount(); i++){
-                    if(tm.getValueAt(i,5).equals("3")){
+            if (ageSelection.equals("0-12")) {
+                for (int i = 0; i < tm.getRowCount(); i++) {
+                    if (tm.getValueAt(i, 5).equals("3")) {
                         tm.removeRow(i);
                     }
                 }
@@ -68,8 +72,27 @@ class MoviePanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(tableMovie);
         tableMovie.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tableMovie.setDefaultEditor(Object.class, null);
+
+        JPanel statPanel = new JPanel();
+        statPanel.setLayout(new GridLayout());
+        statPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+        statPanel.add(watched);
+
+        // Add stats on row change
+        tableMovie.getSelectionModel().addListSelectionListener(e -> {
+            if (!tableMovie.getSelectionModel().isSelectionEmpty()) {
+                int m = Integer.parseInt(tm.getValueAt(tableMovie.getSelectedRow(), 0).toString());
+                int watchedCount = MovieDAO.getInstance().getCountWatched(MovieDAO.getInstance().getMovieByID(m));
+                watched.setText("Bekeken door " + watchedCount + " personen");
+            } else {
+                watched.setText("");
+            }
+
+        });
+
         this.add(scrollPane, BorderLayout.CENTER);
         this.add(topPanel, BorderLayout.NORTH);
+        this.add(statPanel, BorderLayout.SOUTH);
 
     }
 
