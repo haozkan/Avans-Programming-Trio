@@ -117,4 +117,27 @@ public class MovieDAO implements IMovie {
         }
         return movies;
     }
+
+    public int getCountWatched(Movie m) {
+        Connection conn = null;
+        int watchcount = -1;
+        try {
+
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT COUNT(watched.videoID) AS count FROM watched\n" +
+                    "JOIN movie ON watched.videoID = movie.videoID\n" +
+                    "WHERE movie.videoID = ?");
+            statement.setInt(1, m.getId());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                watchcount = resultSet.getInt("count");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+        return watchcount;
+    }
 }
