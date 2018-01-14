@@ -171,4 +171,20 @@ public class SerieDAO implements ISerie {
 
         return series;
     }
+
+    public void updateSerie(Serie s) {
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("UPDATE `serie` SET `serieName` = ?," +
+                    " WHERE `serieID` = ?");
+            statement.setString(1, s.getName());
+            statement.setInt(2,s.getID());
+            statement.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    }
 }

@@ -12,6 +12,10 @@ public class Serie {
     public Serie() {
 
     }
+    public Serie(String name){
+        this.name = name;
+    }
+
     public Serie(int id, String name, int ageRating, String language, String genre) {
         this.id = id;
         this.name = name;

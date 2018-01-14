@@ -140,4 +140,19 @@ public class MovieDAO implements IMovie {
         }
         return watchcount;
     }
+
+    /*public void editWatchedMovie() {
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("UPDATE `watched` SET `percentage` =? WHERE `watchedID`=? ");
+            statement.setInt(1, );
+            statement.setInt(2, );
+            ResultSet resultSet = statement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    } */
 }

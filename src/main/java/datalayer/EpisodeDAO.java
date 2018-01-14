@@ -111,4 +111,19 @@ public class EpisodeDAO implements IEpisode {
         }
         return avgWatchTime;
     }
+
+    /*public void editWatchedEpisode() {
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("UPDATE `watched` SET `percentage` =? WHERE `watchedID`=? ");
+            statement.setInt(1, );
+            statement.setInt(2, );
+            ResultSet resultSet = statement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    } */
 }

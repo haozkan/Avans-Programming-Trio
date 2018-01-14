@@ -10,13 +10,7 @@ import model.Serie;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.concurrent.Flow;
 
 class ProfilePanel extends JPanel {
 
@@ -84,6 +78,8 @@ class ProfilePanel extends JPanel {
         JButton addButton = new JButton();
         JButton editButton = new JButton();
         JButton deleteButton = new JButton();
+        JButton editMovie = new JButton("Edit movie");
+        JButton editSerie = new JButton("Edit serie");
 
         // Set Button Icons
         addButton.setIcon(addIcon);
@@ -94,6 +90,8 @@ class ProfilePanel extends JPanel {
         panelButtons.add(addButton);
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
+        panelButtons.add(editMovie);
+        panelButtons.add(editSerie);
 
         // Add Panels to Header Panel
         panelHeader.add(panelComboBox);
@@ -204,6 +202,26 @@ class ProfilePanel extends JPanel {
         listSelectionModel.addListSelectionListener(e -> {
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
             deleteButton.setEnabled(!lsm.isSelectionEmpty());
+        });
+
+        //EdditSerie logic
+        editSerie.addActionListener(e->{
+         /*   int selectedRow = 0;
+            int selectedID = -1;
+
+            // Get selected row and ID
+            selectedRow = watchedSeriesTable.getSelectedRow();
+            selectedID = Integer.parseInt(watchedSeriesTable.getValueAt(selectedRow, 0).toString());
+        */
+            // Open Edit Frame
+            //Tijdelijke id
+            int selectedID = 2;
+            new EditSeriePanel(selectedID);
+        });
+
+        //EditMovie logic
+        editMovie.addActionListener(e->{
+
         });
     }
 

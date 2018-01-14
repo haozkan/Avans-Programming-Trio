@@ -26,8 +26,8 @@ class MoviePanel extends JPanel {
         tm = new DefaultTableModel(columnNames, 0);
         tableMovie = new JTable(tm);
         watched = new JLabel();
-        String[] ages = {"0-12", "13-16", "17-18", "18+"};
-        String[] twelve = {};
+
+        String[] ages = {"0-12", "13-16", "17-18", "18+","none"};
         ageRequirement = new JComboBox(ages);
         JLabel requestedAge = new JLabel("Select age requirement");
 
@@ -71,6 +71,8 @@ class MoviePanel extends JPanel {
                         tm.removeRow(i);
                     }
                 }
+            } else if (ageSelection.equals("none")) {
+                updateMovieTable();
             }
         });
 
