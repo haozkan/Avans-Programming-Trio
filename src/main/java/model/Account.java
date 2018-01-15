@@ -32,14 +32,7 @@ public class Account {
 
     @Override
     public String toString() {
-        return "Account{" +
-                "accountNumber=" + accountNumber +
-                ", accountName='" + accountName + '\'' +
-                ", streetname='" + streetname + '\'' +
-                ", houseNumber='" + houseNumber + '\'' +
-                ", zipcode='" + zipcode + '\'' +
-                ", residence='" + residence + '\'' +
-                '}';
+        return this.getAccountName();
     }
 
     public String toCombo() {

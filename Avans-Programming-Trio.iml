@@ -14,9 +14,12 @@
     <orderEntry type="library" name="mysql-connector-java-5.1.45-bin" level="project" />
     <orderEntry type="library" name="MigLayout" level="project" />
     <orderEntry type="library" name="Beans Binding" level="project" />
+    <orderEntry type="library" name="LGoodDatePicker-10.3.1" level="application" />
     <orderEntry type="library" name="Maven: com.github.jiconfont:jiconfont-swing:1.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.jiconfont:jiconfont:0.10.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.jiconfont:jiconfont-font_awesome:4.7.0.0" level="project" />
-    <orderEntry type="library" name="LGoodDatePicker-10.3.1" level="application" />
+    <orderEntry type="library" name="Maven: org.junit.jupiter:junit-jupiter-api:5.1.0-M1" level="project" />
+    <orderEntry type="library" name="Maven: org.opentest4j:opentest4j:1.0.0" level="project" />
+    <orderEntry type="library" name="Maven: org.junit.platform:junit-platform-commons:1.1.0-M1" level="project" />
   </component>
 </module>

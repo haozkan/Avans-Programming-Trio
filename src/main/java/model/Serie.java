@@ -12,6 +12,10 @@ public class Serie {
     public Serie() {
 
     }
+    public Serie(String name){
+        this.name = name;
+    }
+
     public Serie(int id, String name, int ageRating, String language, String genre) {
         this.id = id;
         this.name = name;
@@ -79,13 +83,6 @@ public class Serie {
 
     @Override
     public String toString() {
-        return "Serie{" +
-                "serieID=" + id +
-                ", serieName='" + name + '\'' +
-                ", ageRating='" + ageRating + '\'' +
-                ", language='" + language + '\'' +
-                ", genre='" + genre + '\'' +
-                ", suggestion='" + suggestion + '\'' +
-                '}';
+        return this.getName();
     }
 }

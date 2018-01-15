@@ -7,13 +7,8 @@ import model.Serie;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.JTableHeader;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 class SeriePanel extends JPanel {
 
@@ -54,11 +49,13 @@ class SeriePanel extends JPanel {
 
         tableSeries.getSelectionModel().addListSelectionListener(e -> {
             // Get Episode watchcount on selection changed
-            if (!tableSeries.getSelectionModel().isSelectionEmpty()) {
-                Episode selectedEpisode = EpisodeDAO.getInstance().getEpisodeByID(Integer.parseInt(tmSerie.getValueAt(tableSeries.getSelectedRow(), 0).toString()));
-                averageWatchedEpisodeCount.setText("Gemiddelde kijktijd aflevering: " + EpisodeDAO.getInstance().getAverageWatchtime(selectedEpisode) + "%");
-            } else {
-                averageWatchedEpisodeCount.setText("");
+            try {
+                if (!tableSeries.getSelectionModel().isSelectionEmpty()) {
+                    Episode selectedEpisode = EpisodeDAO.getInstance().getEpisodeByID(Integer.parseInt(tmSerie.getValueAt(tableSeries.getSelectedRow(), 0).toString()));
+                    averageWatchedEpisodeCount.setText("Gemiddelde kijktijd aflevering: " + EpisodeDAO.getInstance().getAverageWatchtime(selectedEpisode) + "%");
+                }
+            } catch (NullPointerException n) {
+                averageWatchedEpisodeCount.setText("Gemiddelde kijktijd aflevering: Geen data");
             }
 
         });

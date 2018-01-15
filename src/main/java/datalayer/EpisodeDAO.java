@@ -37,7 +37,7 @@ public class EpisodeDAO implements IEpisode {
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int id = resultSet.getInt("episodeID");
+                int id = resultSet.getInt("videoID");
                 String title = resultSet.getString("videoTitle");
                 String duration = resultSet.getString("durage");
                 int season = resultSet.getInt("season");
@@ -55,18 +55,17 @@ public class EpisodeDAO implements IEpisode {
 
     @Override
     public Episode getEpisodeByID(int id) {
-
         Connection conn = null;
         Episode epi = null;
         try {
             conn = MysqlDAO.getInstance().connect();
             PreparedStatement statement = conn.prepareStatement("SELECT * FROM episode\n" +
-                    "INNER JOIN video ON video.videoID = episode.videoID WHERE episode.episodeID = ?");
+                    "INNER JOIN video ON video.videoID = episode.videoID WHERE episode.videoID = ?");
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
             while (resultSet.next()) {
-                int epId = resultSet.getInt("episodeID");
+                int epId = resultSet.getInt("videoID");
                 String title = resultSet.getString("videoTitle");
                 String duration = resultSet.getString("durage");
                 int season = resultSet.getInt("season");
@@ -84,8 +83,36 @@ public class EpisodeDAO implements IEpisode {
     }
 
     @Override
-    public List getWatchedEpisodesByProfile(Profile p) {
-        return null;
+    public List<Episode> getWatchedEpisodesByProfile(Profile p) {
+        ArrayList<Episode> episodes = new ArrayList<>();
+        Episode epi = null;
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM episode \n" +
+                    "INNER JOIN video ON episode.videoID = video.videoID \n" +
+                    "INNER JOIN watched ON watched.videoID = episode.videoID \n" +
+                    "INNER JOIN profile ON profile.profileID = watched.profileID \n " +
+                    "WHERE profile.profileID = ?");
+            statement.setInt(1, p.getProfileID());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int epId = resultSet.getInt("videoID");
+                String title = resultSet.getString("videoTitle");
+                String duration = resultSet.getString("durage");
+                int season = resultSet.getInt("season");
+
+                epi = new Episode(epId, title, duration, season);
+                episodes.add(epi);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+
+        return episodes;
     }
 
     @Override
@@ -110,5 +137,76 @@ public class EpisodeDAO implements IEpisode {
             MysqlDAO.getInstance().closeConnection(conn);
         }
         return avgWatchTime;
+    }
+
+    public int getWatchedPercentage(Episode e, Profile p) {
+        int watchedpercentage = 0;
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("SELECT * FROM watched WHERE videoID = ? AND profileID = ?");
+            statement.setInt(1, e.getId());
+            statement.setInt(2, p.getProfileID());
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                watchedpercentage = resultSet.getInt("percentage");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+        return watchedpercentage;
+    }
+
+    public void updateWatchedPercentage(Episode e, Profile p, int percentage) {
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("UPDATE `watched` SET `percentage` = ? WHERE `videoID` = ? AND profileID = ?");
+            statement.setInt(1, percentage);
+            statement.setInt(2, e.getId());
+            statement.setInt(3, p.getProfileID());
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    }
+
+    public void addWatchedPercentage(Episode e, Profile p, int percentage) {
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO `watched`(profileID, videoID, percentage) VALUES(?, ?, ?)");
+            statement.setInt(1, p.getProfileID());
+            statement.setInt(2, e.getId());
+            statement.setInt(3, percentage);
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
+    }
+
+    public void deleteWatchedPercentage(Episode e, Profile p) {
+        Connection conn = null;
+        try {
+            conn = MysqlDAO.getInstance().connect();
+            PreparedStatement statement = conn.prepareStatement("DELETE FROM `watched` WHERE `videoID`=? AND profileID = ?");
+            statement.setInt(1, e.getId());
+            statement.setInt(2, p.getProfileID());
+            statement.executeUpdate();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            MysqlDAO.getInstance().closeConnection(conn);
+        }
     }
 }

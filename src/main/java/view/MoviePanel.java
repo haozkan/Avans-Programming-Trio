@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.*;
 import java.awt.*;
+import java.util.Arrays;
 
 class MoviePanel extends JPanel {
 
@@ -26,7 +27,8 @@ class MoviePanel extends JPanel {
         tm = new DefaultTableModel(columnNames, 0);
         tableMovie = new JTable(tm);
         watched = new JLabel();
-        String[] ages = {"0-12", "13-16", "17-18", "18+"};
+
+        String[] ages = {"<-12", "<-16", "<-18", "18+","reset"};
         ageRequirement = new JComboBox(ages);
         JLabel requestedAge = new JLabel("Select age requirement");
 
@@ -38,12 +40,40 @@ class MoviePanel extends JPanel {
         sort.addActionListener(e -> {
             String ageSelection = ageRequirement.getSelectedItem().toString();
 
-            if (ageSelection.equals("0-12")) {
-                for (int i = 0; i < tm.getRowCount(); i++) {
-                    if (tm.getValueAt(i, 5).equals("3")) {
+            if (ageSelection.equals("<-12")) {
+                for (int i = tm.getRowCount() -1; i >= 0; i--) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number > 12) {
                         tm.removeRow(i);
                     }
                 }
+            } else if (ageSelection.equals("<-16")) {
+                for (int i = tm.getRowCount() -1; i >= 0; i--) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number > 16) {
+                        tm.removeRow(i);
+                    }
+                }
+            } else if (ageSelection.equals("<-18")) {
+                for (int i = tm.getRowCount() -1; i >= 0; i--) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number > 18) {
+                        tm.removeRow(i);
+                    }
+                }
+            } else if (ageSelection.equals("18+")) {
+                for (int i = tm.getRowCount() -1; i >= 0; i--) {
+                    String a = tm.getValueAt(i, 5).toString();
+                    int number = Integer.parseInt(a);
+                    if (number <18) {
+                        tm.removeRow(i);
+                    }
+                }
+            } else if (ageSelection.equals("reset")) {
+                updateMovieTable();
             }
         });
 
@@ -110,4 +140,5 @@ class MoviePanel extends JPanel {
             tm.addRow(o);
         }
     }
+
 }

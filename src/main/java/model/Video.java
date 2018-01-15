@@ -20,19 +20,9 @@ public abstract class Video {
         this.duration = duration;
     }
 
-    abstract double getWatchedPercentage();
-
-    // Probably not needed
-    //  abstract double getWatchedPercentageByMovie(Movie m);
-    //  abstract double getWatchedPercentageByEpisode(Episode e);
-
     @Override
     public String toString() {
-        return "Video{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", duration='" + duration + '\'' +
-                '}';
+        return this.getTitle();
     }
 
     public int getId() {

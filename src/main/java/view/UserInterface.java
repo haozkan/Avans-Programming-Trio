@@ -58,7 +58,7 @@ public class UserInterface implements Runnable {
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(3, 10, 3, 10));
         panel.add(new JLabel("Netflix Statistix", JLabel.LEFT), BorderLayout.WEST);
-        panel.add(new JLabel("Informatica klas1E - Djim Oomes, Marco van Poortvliet", JLabel.RIGHT), BorderLayout.EAST);
+        panel.add(new JLabel("Informatica klas1E - Djim Oomes (2122380), Marco van Poortvliet (2121236)", JLabel.RIGHT), BorderLayout.EAST);
         return panel;
     }
 

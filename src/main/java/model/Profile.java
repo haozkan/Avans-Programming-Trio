@@ -13,12 +13,6 @@ public class Profile {
 
     }
 
-    /*public Profile(String profileName, Date dateOfBirth, int accountID){
-        this.accountID = accountID;
-        this.profileName = profileName;
-        this.dateOfBirth = dateOfBirth;
-    } */
-
     public Profile(String profileName, Date dateOfBirth) {
         this.profileName = profileName;
         this.dateOfBirth = dateOfBirth;
@@ -50,12 +44,7 @@ public class Profile {
 
     @Override
     public String toString() {
-        return "Profile{" +
-                "profileName='" + profileName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", profileID=" + profileID +
-                ", accountID=" + accountID +
-                '}';
+        return this.getProfileName();
     }
 
     public void setProfileID(int id) {
