@@ -15,9 +15,8 @@ class ProfilePanel extends JPanel {
 
     private String[] columnNamesMovies = {"Naam", "Percentage"};
     private String[] columnNamesSeries = {"Naam", "Percentage"};
-    private DefaultTableModel tmMovies = new DefaultTableModel(columnNamesMovies, 0);
-    private DefaultTableModel tmSeries = new DefaultTableModel(columnNamesSeries, 0);
-    private JTable watchedMoviesTable = new JTable(tmMovies);
+    private static DefaultTableModel tmMovies;
+    private static JTable watchedMoviesTable;
     private static DefaultTableModel tmProfile;
     private static JTable tableProfile;
     private static JComboBox<Account> comboBoxAccounts;
@@ -27,7 +26,9 @@ class ProfilePanel extends JPanel {
         // Initialize Components
         String[] columnNamesProfile = {"ID", "AccountID", "Naam", "Geboortedatum"};
         tmProfile = new DefaultTableModel(columnNamesProfile, 0);
+        tmMovies = new DefaultTableModel(columnNamesMovies, 0);
         tableProfile = new JTable(tmProfile);
+        watchedMoviesTable = new JTable(tmMovies);
         comboBoxAccounts = new JComboBox<>();
 
         // Get all Accounts and put them in ComboBox
@@ -98,6 +99,7 @@ class ProfilePanel extends JPanel {
         // Edit and Delete buttons are disabled on init
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
+        editWatched.setEnabled(false);
 
         // Statistics Panel
         JPanel panelStats = new JPanel();
@@ -136,6 +138,13 @@ class ProfilePanel extends JPanel {
         listSelectionModel.addListSelectionListener(e -> {
             ListSelectionModel lsm = (ListSelectionModel) e.getSource();
             editButton.setEnabled(!lsm.isSelectionEmpty());
+        });
+
+        // Disable edit watched button if selection is empty
+        ListSelectionModel listSelectionModel2 = watchedMoviesTable.getSelectionModel();
+        listSelectionModel2.addListSelectionListener(e -> {
+            ListSelectionModel lsm = (ListSelectionModel) e.getSource();
+            editWatched.setEnabled(!lsm.isSelectionEmpty());
         });
 
         // Add Panels
@@ -246,7 +255,7 @@ class ProfilePanel extends JPanel {
         tableProfile.getColumnModel().getColumn(1).setMaxWidth(0);
     }
 
-    public void updateMovieTable() {
+    public static void updateMovieTable() {
         // Clear table
         tmMovies.setRowCount(0);
 
@@ -269,12 +278,17 @@ class ProfilePanel extends JPanel {
             o[1] = e.getTitle();
             tmMovies.addRow(o);
         }
+
+        // Hide ID column
+        watchedMoviesTable.getColumnModel().getColumn(0).setMinWidth(0);
+        watchedMoviesTable.getColumnModel().getColumn(0).setMaxWidth(0);
+
     }
 
     public static void updateProfileCombox() {
 
         // Clear ComboBox
-        comboBoxAccounts.removeAllItems();
+//        comboBoxAccounts.removeAllItems();
 
         // Refill ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {

@@ -1,5 +1,6 @@
 package view;
 
+import controller.PercentageVerifier;
 import datalayer.*;
 
 import javax.swing.*;
@@ -67,6 +68,8 @@ public class ManageWatchedPanel extends JFrame {
                 frame.dispose();
             });
 
+            ProfilePanel.updateMovieTable();
+
         }
 
         // Movie
@@ -84,6 +87,8 @@ public class ManageWatchedPanel extends JFrame {
                 MovieDAO.getInstance().deleteWatchedPercentage(m, p);
                 frame.dispose();
             });
+
+            ProfilePanel.updateMovieTable();
 
         } else {
             System.out.println("No video found");

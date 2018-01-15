@@ -83,13 +83,6 @@ public class Serie {
 
     @Override
     public String toString() {
-        return "Serie{" +
-                "serieID=" + id +
-                ", serieName='" + name + '\'' +
-                ", ageRating='" + ageRating + '\'' +
-                ", language='" + language + '\'' +
-                ", genre='" + genre + '\'' +
-                ", suggestion='" + suggestion + '\'' +
-                '}';
+        return this.getName();
     }
 }

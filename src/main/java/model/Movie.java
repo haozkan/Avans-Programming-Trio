@@ -26,16 +26,7 @@ public class Movie extends Video {
 
     @Override
     public String toString() {
-        return "Movie{" +
-                "genre='" + genre + '\'' +
-                ", language='" + language + '\'' +
-                ", ageRating=" + ageRating +
-                "} " + super.toString();
-    }
-
-    @Override
-    double getWatchedPercentage() {
-        return 0;
+        return this.getTitle();
     }
 
     public String getGenre() {

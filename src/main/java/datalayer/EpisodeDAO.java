@@ -164,7 +164,7 @@ public class EpisodeDAO implements IEpisode {
         Connection conn = null;
         try {
             conn = MysqlDAO.getInstance().connect();
-            PreparedStatement statement = conn.prepareStatement("UPDATE `watched` SET `percentage` =? WHERE `videoID`=? AND profileID = ?");
+            PreparedStatement statement = conn.prepareStatement("UPDATE `watched` SET `percentage` = ? WHERE `videoID` = ? AND profileID = ?");
             statement.setInt(1, percentage);
             statement.setInt(2, e.getId());
             statement.setInt(3, p.getProfileID());
@@ -181,10 +181,10 @@ public class EpisodeDAO implements IEpisode {
         Connection conn = null;
         try {
             conn = MysqlDAO.getInstance().connect();
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO `watched` VALUES(`percentage` =?, `videoID`=?, profileID = ?)");
-            statement.setInt(1, percentage);
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO `watched`(profileID, videoID, percentage) VALUES(?, ?, ?)");
+            statement.setInt(1, p.getProfileID());
             statement.setInt(2, e.getId());
-            statement.setInt(3, p.getProfileID());
+            statement.setInt(3, percentage);
             statement.executeUpdate();
 
         } catch (SQLException ex) {

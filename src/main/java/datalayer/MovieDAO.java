@@ -184,7 +184,7 @@ public class MovieDAO implements IMovie {
         Connection conn = null;
         try {
             conn = MysqlDAO.getInstance().connect();
-            PreparedStatement statement = conn.prepareStatement("INSERT INTO `watched`(percentage, videoID, profileID) VALUES(`percentage` = ?, `videoID` = ?, profileID = ?)");
+            PreparedStatement statement = conn.prepareStatement("INSERT INTO `watched`(percentage, videoID, profileID) VALUES(?, ?, ?)");
             statement.setInt(1, percentage);
             statement.setInt(2, m.getId());
             statement.setInt(3, p.getProfileID());

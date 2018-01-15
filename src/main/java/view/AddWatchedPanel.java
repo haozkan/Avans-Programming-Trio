@@ -90,7 +90,7 @@ public class AddWatchedPanel extends JFrame {
         addButton.addActionListener(e -> {
             if (Objects.equals(videoType.getSelectedItem(), "Episode")) {
                 Profile p = (Profile) profile.getSelectedItem();
-                Episode ep = (Episode) video.getSelectedItem();
+                Episode ep = (Episode) episode.getSelectedItem();
                 int per = Integer.valueOf(percentage.getText());
                 EpisodeDAO.getInstance().addWatchedPercentage(ep, p, per);
             } else if (Objects.equals(videoType.getSelectedItem(), "Film")) {
@@ -100,7 +100,7 @@ public class AddWatchedPanel extends JFrame {
                 MovieDAO.getInstance().addWatchedPercentage(m, p, per);
             }
 
-
+            ProfilePanel.updateMovieTable();
             frame.dispose();
         });
 
