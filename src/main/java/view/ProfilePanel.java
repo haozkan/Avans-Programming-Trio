@@ -3,14 +3,13 @@ package view;
 import datalayer.*;
 import jiconfont.icons.FontAwesome;
 import jiconfont.swing.IconFontSwing;
-import model.Account;
-import model.Movie;
-import model.Profile;
-import model.Serie;
+import model.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 class ProfilePanel extends JPanel {
 
@@ -19,7 +18,6 @@ class ProfilePanel extends JPanel {
     private DefaultTableModel tmMovies = new DefaultTableModel(columnNamesMovies, 0);
     private DefaultTableModel tmSeries = new DefaultTableModel(columnNamesSeries, 0);
     private JTable watchedMoviesTable = new JTable(tmMovies);
-    private JTable watchedSeriesTable = new JTable(tmSeries);
     private static DefaultTableModel tmProfile;
     private static JTable tableProfile;
     private static JComboBox<Account> comboBoxAccounts;
@@ -78,20 +76,20 @@ class ProfilePanel extends JPanel {
         JButton addButton = new JButton();
         JButton editButton = new JButton();
         JButton deleteButton = new JButton();
-        JButton editMovie = new JButton("Edit movie");
-        JButton editSerie = new JButton("Edit serie");
+        JButton editWatched = new JButton();
+        JButton addWatched = new JButton();
 
         // Set Button Icons
         addButton.setIcon(addIcon);
         editButton.setIcon(editIcon);
         deleteButton.setIcon(deleteIcon);
+        editWatched.setIcon(editIcon);
+        addWatched.setIcon(addIcon);
 
         // Add Buttons to panel
         panelButtons.add(addButton);
         panelButtons.add(editButton);
         panelButtons.add(deleteButton);
-        panelButtons.add(editMovie);
-        panelButtons.add(editSerie);
 
         // Add Panels to Header Panel
         panelHeader.add(panelComboBox);
@@ -106,28 +104,25 @@ class ProfilePanel extends JPanel {
         panelStats.setLayout(new GridLayout(1, 2));
 
         JPanel watchedMovies = new JPanel();
-        JPanel watchedSeries = new JPanel();
+        JPanel watchedMoviesButtons = new JPanel();
         watchedMovies.setLayout(new BorderLayout());
-        watchedSeries.setLayout(new BorderLayout());
+        watchedMoviesButtons.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-        watchedMovies.add(new JLabel("Bekeken Films"), BorderLayout.NORTH);
+        watchedMoviesButtons.add(editWatched);
+        watchedMoviesButtons.add(addWatched);
+
+        watchedMovies.add(watchedMoviesButtons, BorderLayout.NORTH);
         watchedMovies.add(watchedMoviesTable, BorderLayout.CENTER);
-
-        watchedSeries.add(new JLabel("Bekeken Series"), BorderLayout.NORTH);
-        watchedSeries.add(watchedSeriesTable, BorderLayout.CENTER);
 
         tableProfile.getSelectionModel().addListSelectionListener(e -> {
             if (!tableProfile.getSelectionModel().isSelectionEmpty()) {
                 updateMovieTable();
-                updateSeriesTable();
             } else {
                 tmMovies.setRowCount(0);
-                tmSeries.setRowCount(0);
             }
         });
 
         panelStats.add(watchedMovies);
-        panelStats.add(watchedSeries);
 
         ListSelectionModel listSelectionModel = tableProfile.getSelectionModel();
 
@@ -146,7 +141,7 @@ class ProfilePanel extends JPanel {
         // Add Panels
         this.add(panelHeader, BorderLayout.NORTH);
         this.add(panelTable, BorderLayout.CENTER);
-        this.add(panelStats, BorderLayout.EAST);
+        this.add(panelStats, BorderLayout.SOUTH);
 
         deleteButton.addActionListener(e -> {
 
@@ -204,25 +199,26 @@ class ProfilePanel extends JPanel {
             deleteButton.setEnabled(!lsm.isSelectionEmpty());
         });
 
-        //EdditSerie logic
-        editSerie.addActionListener(e->{
-         /*   int selectedRow = 0;
+        editWatched.addActionListener(e -> {
+            // Reset Values
+            int selectedRow = 0;
             int selectedID = -1;
+            int selectedProfileRow = 0;
+            int selectedProfileID = -1;
 
             // Get selected row and ID
-            selectedRow = watchedSeriesTable.getSelectedRow();
-            selectedID = Integer.parseInt(watchedSeriesTable.getValueAt(selectedRow, 0).toString());
-        */
-            // Open Edit Frame
-            //Tijdelijke id
-            int selectedID = 2;
-            new EditSeriePanel(selectedID);
+            selectedRow = watchedMoviesTable.getSelectedRow();
+            selectedID = Integer.parseInt(watchedMoviesTable.getValueAt(selectedRow, 0).toString());
+            selectedProfileRow = tableProfile.getSelectedRow();
+            selectedProfileID = Integer.parseInt(tableProfile.getValueAt(selectedProfileRow, 0).toString());
+
+            new ManageWatchedPanel(selectedID, selectedProfileID);
         });
 
-        //EditMovie logic
-        editMovie.addActionListener(e->{
-
+        addWatched.addActionListener(e -> {
+            new AddWatchedPanel();
         });
+
     }
 
     public static void updateProfileTable() {
@@ -260,33 +256,25 @@ class ProfilePanel extends JPanel {
 
         // Refill table from DB
         for (Movie m : MovieDAO.getInstance().getWatchedMoviesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
-            Object[] o = new Object[1];
-            o[0] = m.getTitle();
+            Object[] o = new Object[2];
+            o[0] = m.getId();
+            o[1] = m.getTitle();
             tmMovies.addRow(o);
         }
-    }
-
-    public void updateSeriesTable() {
-
-        // Clear table
-        tmSeries.setRowCount(0);
-
-        // Get selected row and ID
-        int selectedRow = tableProfile.getSelectedRow();
-        int selectedID = Integer.parseInt(tableProfile.getValueAt(selectedRow, 0).toString());
 
         // Refill table from DB
-        for (Serie s : SerieDAO.getInstance().getWatchedSeriesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
-            Object[] o = new Object[1];
-            o[0] = s.getName();
-            tmSeries.addRow(o);
+        for (Episode e : EpisodeDAO.getInstance().getWatchedEpisodesByProfile(ProfileDAO.getInstance().getProfileByID(selectedID))) {
+            Object[] o = new Object[2];
+            o[0] = e.getId();
+            o[1] = e.getTitle();
+            tmMovies.addRow(o);
         }
     }
 
     public static void updateProfileCombox() {
 
-//        // Clear ComboBox
-//        comboBoxAccounts.removeAllItems();
+        // Clear ComboBox
+        comboBoxAccounts.removeAllItems();
 
         // Refill ComboBox
         for (Account a : AccountDAO.getInstance().getAllAccounts()) {
